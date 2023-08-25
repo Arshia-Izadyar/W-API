@@ -6,10 +6,13 @@ import (
 	"wapi/src/api/routers"
 	"wapi/src/api/validators"
 	"wapi/src/config"
+	"wapi/src/docs"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func InitServer(cfg *config.Config) {
@@ -18,6 +21,7 @@ func InitServer(cfg *config.Config) {
 	r.Use(middleware.Cors(cfg))
 
 	RegisterRouts(r)
+	RegisterSwagger(r, *cfg)
 	RegisterValidators()
 
 	r.Run(fmt.Sprintf(":%s", cfg.Server.Port))
@@ -43,4 +47,15 @@ func RegisterRouts(r *gin.Engine) {
 		routers.TestRouter(test)
 
 	}
+}
+
+func RegisterSwagger(r *gin.Engine, cfg config.Config) {
+
+	docs.SwaggerInfo.Title = "golang first api"
+	docs.SwaggerInfo.Description = "golang first api"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Schemes = []string{"http"}
+	docs.SwaggerInfo.BasePath = "/api"
+	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%s", cfg.Server.Port)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

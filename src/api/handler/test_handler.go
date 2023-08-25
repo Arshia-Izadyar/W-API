@@ -26,11 +26,31 @@ type User struct {
 
 var UsersDB = map[string]User{"1": User{Name: "arshia", Age: 19}}
 
+// UsersList godoc
+// @Summary Gs
+// @Description Get s ID
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} helper.Response "Success"
+// @Failure 400 {object} helper.Response "Failed"
+// @Router /api/v1/test/users [get]
 func (t *TestHandler) UsersList(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(UsersDB, true, 0))
+	return
 
 }
 
+// GetUser godoc
+// @Summary Get user br ID
+// @Description Get user br ID
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param id path int true "user id"
+// @Success 200 {object} helper.Response "Success"
+// @Failure 400 {object} helper.Response "Failed"
+// @Router /api/v1/test/user/{id} [get]
 func (t *TestHandler) GetUser(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	u, ok := UsersDB[id]
@@ -39,6 +59,7 @@ func (t *TestHandler) GetUser(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(u, true, 0))
+	return
 
 }
 

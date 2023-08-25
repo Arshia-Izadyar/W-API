@@ -1,0 +1,92 @@
+definitions:
+  helper.Response:
+    properties:
+      error: {}
+      result: {}
+      result_code:
+        type: integer
+      success:
+        type: boolean
+      validation_error:
+        items:
+          $ref: '#/definitions/validators.ValidationError'
+        type: array
+    type: object
+  validators.ValidationError:
+    properties:
+      message:
+        type: string
+      property:
+        type: string
+      tag:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/health/:
+    get:
+      consumes:
+      - application/json
+      description: Health Check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Health Check
+      tags:
+      - health
+  /api/v1/test/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get user br ID
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Get user br ID
+      tags:
+      - User
+  /api/v1/test/users:
+    get:
+      consumes:
+      - application/json
+      description: Get s ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Gs
+      tags:
+      - User
+swagger: "2.0"

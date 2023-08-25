@@ -14,7 +14,16 @@ func NewHealthHandler() *HealthHandler {
 	return &HealthHandler{}
 }
 
+// HealthCheck godoc
+// @Summary Health Check
+// @Description Health Check
+// @Tags health
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} helper.Response "Success"
+// @Failure 400 {object} helper.Response "Failed"
+// @Router /api/v1/health/ [get]
 func (h *HealthHandler) HealthGet(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse("ok", true, http.StatusOK))
-
+	return
 }

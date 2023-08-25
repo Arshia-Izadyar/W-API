@@ -24,11 +24,11 @@ func InitRedis(cfg *config.Config) error {
 		// IdleCheckFrequency: cfg.Redis.IdleCheckFrequency * time.Millisecond,
 	})
 	ctx := context.Background()
-	res, err := redisClient.Ping(ctx).Result()
+	_, err := redisClient.Ping(ctx).Result()
 	if err != nil {
 		return err
 	}
-	fmt.Println(res)
+
 	return nil
 }
 
