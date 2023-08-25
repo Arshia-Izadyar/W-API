@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	"wapi/src/api/helper"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +16,7 @@ func NewTestHandler() *TestHandler {
 }
 
 func (t *TestHandler) Test(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{"Status": "ok"})
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse("ok", true, 0))
 }
 
 type User struct {
@@ -25,17 +27,18 @@ type User struct {
 var UsersDB = map[string]User{"1": User{Name: "arshia", Age: 19}}
 
 func (t *TestHandler) UsersList(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, UsersDB)
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(UsersDB, true, 0))
+
 }
 
 func (t *TestHandler) GetUser(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	u, ok := UsersDB[id]
 	if !ok {
-		ctx.JSON(http.StatusBadRequest, gin.H{"Status": "User Not Found"})
+		ctx.JSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError("User Not Found", false, 0, errors.New("Cant find user")))
 		return
 	}
-	ctx.JSON(http.StatusOK, u)
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(u, true, 0))
 
 }
 
@@ -50,37 +53,40 @@ type Header struct {
 
 func (h *TestHandler) HeaderBinder1(ctx *gin.Context) {
 	userID := ctx.GetHeader("UserID")
-	ctx.JSON(http.StatusOK, gin.H{
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"result": userID,
 		"func":   "headerBinder1",
-	})
+	}, true, 0))
+
 }
 
 func (h *TestHandler) HeaderBinder2(ctx *gin.Context) {
 	head := Header{}
 	ctx.BindHeader(&head)
-	ctx.JSON(http.StatusOK, gin.H{
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"result": head,
 		"func":   "headerBinder1",
-	})
+	}, true, 0))
 }
 
 func (h *TestHandler) QueryBinder(ctx *gin.Context) {
 	ids := ctx.QueryArray("id")
 	name := ctx.Query("name")
-	ctx.JSON(http.StatusOK, gin.H{
+
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"name": name,
 		"id":   ids,
-	})
+	}, true, 0))
+
 }
 
 func (h *TestHandler) UriBinder(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	name := ctx.Param("name")
-	ctx.JSON(http.StatusOK, gin.H{
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"name": name,
 		"id":   id,
-	})
+	}, true, 0))
 }
 
 type Person struct {
@@ -95,9 +101,7 @@ func (h *TestHandler) BodyBinder(ctx *gin.Context) {
 	// ctx.Bind(&p)
 	err := ctx.ShouldBindJSON(&p)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"Error": err.Error(),
-		})
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
 		return
 	}
 	ctx.JSON(http.StatusOK, gin.H{
@@ -111,20 +115,23 @@ func (h *TestHandler) BodyBinder(ctx *gin.Context) {
 func (h *TestHandler) FormBinder(ctx *gin.Context) {
 	p := Person{}
 	// ctx.Bind(&p)
-	ctx.ShouldBind(&p)
-	ctx.JSON(http.StatusOK, gin.H{
+	err := ctx.ShouldBind(&p)
+	if err != nil {
+		ctx.AbortWithStatusJSON(404, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+	}
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"name": p.Name,
 		"id":   p.Id,
 		"p":    p,
-	})
+	}, true, 0))
 }
 
 func (h *TestHandler) FileBinder(ctx *gin.Context) {
 	file, _ := ctx.FormFile("file")
 	ctx.SaveUploadedFile(file, "file")
 	// ctx.Bind(&p)
-	ctx.JSON(http.StatusOK, gin.H{
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"name": "",
 		"id":   file.Filename,
-	})
+	}, true, 0))
 }

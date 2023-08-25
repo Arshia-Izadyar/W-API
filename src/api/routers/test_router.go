@@ -2,6 +2,7 @@ package routers
 
 import (
 	"wapi/src/api/handler"
+	"wapi/src/api/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +19,7 @@ func TestRouter(r *gin.RouterGroup) {
 	r.POST("/header2/", handler.HeaderBinder2)
 	r.POST("/qq/", handler.QueryBinder)
 	r.POST("/uri/:id/:name/", handler.UriBinder)
-	r.POST("/body/", handler.BodyBinder)
+	r.POST("/body/", handler.BodyBinder, middleware.TestMiddleWare())
 	r.POST("/form/", handler.FormBinder)
 	r.POST("/file/", handler.FileBinder)
 
