@@ -12,6 +12,7 @@ type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
 	Redis    RedisConfig
+	PassWord PasswordConfig
 }
 
 type ServerConfig struct {
@@ -42,6 +43,15 @@ type RedisConfig struct {
 	ReadTimeout        time.Duration
 	WriteTimeout       time.Duration
 	IdleCheckFrequency time.Duration
+}
+
+type PasswordConfig struct {
+	IncludeChars     bool
+	IncludeDigits    bool
+	MinLength        int
+	MaxLength        int
+	IncludeUppercase bool
+	IncludeLowercase bool
 }
 
 func getConfigPath(env string) string {
