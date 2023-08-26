@@ -5,7 +5,7 @@ logger:
   filePath: ../logs/logs.log
   encoding: json
   level: debug
-  logger: zero
+  logger: zap
 
 cors:
   allowOrigins: "*"

@@ -1,1 +1,2 @@
-{"level":"info","AppName":"MyApp","LoggerName":"ZeroLog","Category":"Postgres","SubCategory":"Startup","time":"2023-08-26T12:30:31+03:30","message":"postgres started"}
+{"level":"info","ts":"2023-08-26T12:58:41.117+0330","caller":"db/postgres.go:40","msg":"postgres started","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Startup"}
+{"log-1","level":"info","ts":"2023-08-26T13:06:24.931+0330","caller":"db/postgres.go:40","msg":"postgres started","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Startup"}
