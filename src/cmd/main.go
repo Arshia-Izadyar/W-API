@@ -5,14 +5,14 @@ import (
 	"wapi/src/config"
 	"wapi/src/data/cache"
 	"wapi/src/data/db"
-	"wapi/src/logs/logging"
+	"wapi/src/pkg/logging"
 )
 
 func main() {
 
 	cfg := config.LoadCfg()
 
-	logger := logging.NewLogger()
+	logger := logging.NewLogger(cfg)
 
 	// redis
 	err := cache.InitRedis(cfg)

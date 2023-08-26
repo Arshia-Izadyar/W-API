@@ -4,14 +4,15 @@ import (
 	"fmt"
 	"time"
 	"wapi/src/config"
-	"wapi/src/logs/logging"
+	"wapi/src/pkg/logging"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var dbClient *gorm.DB
-var logger = logging.NewLogger()
+var cfg = config.LoadCfg()
+var logger = logging.NewLogger(cfg)
 
 func InitDB(cfg config.Config) error {
 	cnn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",

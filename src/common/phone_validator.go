@@ -2,10 +2,12 @@ package common
 
 import (
 	"regexp"
-	"wapi/src/logs/logging"
+	"wapi/src/config"
+	"wapi/src/pkg/logging"
 )
 
-var logger = logging.NewLogger()
+var cfg = config.LoadCfg()
+var logger = logging.NewLogger(cfg)
 
 const IranPhoneNumberValidatorPattern string = `^09(1[0-9]|2[0-2]|3[0-9]|9[0-9])[0-9]{7}$`
 

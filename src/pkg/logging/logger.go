@@ -1,5 +1,7 @@
 package logging
 
+import "wapi/src/config"
+
 type Logger interface {
 	Init()
 	Info(cat Category, sub SubCategory, msg string, extra map[ExtraKey]interface{})
@@ -18,6 +20,14 @@ type Logger interface {
 	Fatalf(err error, template string, args ...interface{})
 }
 
-func NewLogger() Logger {
-	return newZapLogger()
+func NewLogger(cfg *config.Config) Logger {
+	if cfg.Logger.Logger == "zap" {
+
+		return newZapLogger(cfg)
+	} else if cfg.Logger.Logger == "zero" {
+		return newZeroLogger(cfg)
+	} else {
+		panic("logger not supported")
+	}
+
 }
