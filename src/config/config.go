@@ -13,6 +13,7 @@ type Config struct {
 	Postgres PostgresConfig
 	Redis    RedisConfig
 	Cors     CorsConfig
+	Logger   LoggerConfig
 	PassWord PasswordConfig
 }
 
@@ -23,6 +24,12 @@ type CorsConfig struct {
 type ServerConfig struct {
 	Port    string
 	RunMode string
+}
+
+type LoggerConfig struct {
+	FilePath string
+	Encoding string
+	Level    string
 }
 
 type PostgresConfig struct {
@@ -36,6 +43,7 @@ type PostgresConfig struct {
 	MaxIdleConns    int
 	ConnMaxLifetime time.Duration
 }
+
 type RedisConfig struct {
 	Host               string
 	Port               int
@@ -87,9 +95,8 @@ func LoadConfig(fileName string, fileType string) (*viper.Viper, error) {
 	return v, nil
 }
 
-var cfg Config
-
 func ParseConfig(v *viper.Viper) (*Config, error) {
+	var cfg Config
 	err := v.Unmarshal(&cfg)
 	if err != nil {
 		return nil, err

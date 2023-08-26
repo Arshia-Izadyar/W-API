@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"time"
 	"wapi/src/config"
+	"wapi/src/logs/logging"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 var dbClient *gorm.DB
+var logger = logging.NewLogger()
 
 func InitDB(cfg config.Config) error {
 	cnn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
@@ -34,7 +36,7 @@ func InitDB(cfg config.Config) error {
 	sqlDB.SetMaxIdleConns(cfg.Postgres.MaxIdleConns)
 	sqlDB.SetMaxOpenConns(cfg.Postgres.MaxOpenConns)
 	sqlDB.SetConnMaxLifetime(cfg.Postgres.ConnMaxLifetime * time.Minute)
-	fmt.Println("We Don't have error")
+	logger.Info(logging.Postgres, logging.Startup, "postgres started", nil)
 	return nil
 }
 

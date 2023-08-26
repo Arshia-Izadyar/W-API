@@ -17,7 +17,6 @@ services:
       - webapi_network
     restart: unless-stopped
 
-
   pgadmin:
     image: dpage/pgadmin4
     container_name: pdadmin_container
@@ -40,14 +39,12 @@ services:
     command: ["redis-server", "/etc/redis/redis.conf"]
     volumes:
       - ./redis/redis.conf:/etc/redis/redis.conf
-      - redis:/etc/redic.conf
-      - redis:/data/
+      - redis:/etc/redis
     ports:
       - "6379:6379"
     networks:
       - webapi_network
     restart: unless-stopped
-
 
 volumes:
   postgres:

@@ -1,20 +1,23 @@
 package main
 
 import (
-	"log"
 	"wapi/src/api"
 	"wapi/src/config"
 	"wapi/src/data/cache"
 	"wapi/src/data/db"
+	"wapi/src/logs/logging"
 )
 
 func main() {
 
-	// redis
 	cfg := config.LoadCfg()
+
+	logger := logging.NewLogger()
+
+	// redis
 	err := cache.InitRedis(cfg)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err, logging.Redis, logging.Startup, "redis Failed:\t"+err.Error(), nil)
 	}
 	defer cache.CloseRedis()
 
@@ -22,7 +25,7 @@ func main() {
 	err = db.InitDB(*cfg)
 	defer db.CloseDB()
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err, logging.Postgres, logging.Startup, "postgres Failed:"+err.Error(), nil)
 	}
 
 	// api server
