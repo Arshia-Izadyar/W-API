@@ -40,7 +40,7 @@ password:
 otp:
   digits: 6
   expireTime: 120
-  limiter: 19
+  limiter: 120
 jwt:
   secret: "mySecretKey"
   refreshSecret: "mySecretKey"
