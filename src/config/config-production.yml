@@ -38,9 +38,9 @@ password:
   includeUppercase: true
   includeLowercase: true
 otp:
-  expireTime: 120
   digits: 6
-  limiter: 100
+  expireTime: 120
+  limiter: 19
 jwt:
   secret: "mySecretKey"
   refreshSecret: "mySecretKey"

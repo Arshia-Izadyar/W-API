@@ -14,7 +14,7 @@ var dbClient *gorm.DB
 var cfg = config.LoadCfg()
 var logger = logging.NewLogger(cfg)
 
-func InitDB(cfg config.Config) error {
+func InitDB(cfg config.Config) (err error) {
 	cnn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		cfg.Postgres.Host,
 		cfg.Postgres.Port,
@@ -22,7 +22,7 @@ func InitDB(cfg config.Config) error {
 		cfg.Postgres.Password,
 		cfg.Postgres.DbName,
 	)
-	dbClient, err := gorm.Open(postgres.Open(cnn), &gorm.Config{})
+	dbClient, err = gorm.Open(postgres.Open(cnn), &gorm.Config{})
 	if err != nil {
 		return err
 	}

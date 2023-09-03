@@ -5,6 +5,7 @@ import (
 	"wapi/src/config"
 	"wapi/src/data/cache"
 	"wapi/src/data/db"
+	"wapi/src/data/db/migrations"
 	"wapi/src/pkg/logging"
 )
 
@@ -27,6 +28,7 @@ func main() {
 	if err != nil {
 		logger.Fatal(err, logging.Postgres, logging.Startup, "postgres Failed:"+err.Error(), nil)
 	}
+	migrations.Up_1()
 
 	// api server
 	api.InitServer(cfg)

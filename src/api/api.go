@@ -17,7 +17,8 @@ import (
 
 func InitServer(cfg *config.Config) {
 	r := gin.New()
-	r.Use(gin.Logger(), gin.Recovery(), middleware.LimitByRequest())
+	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(middleware.LimitByRequest())
 	r.Use(middleware.Cors(cfg))
 
 	RegisterRouts(r)

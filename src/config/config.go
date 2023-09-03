@@ -15,6 +15,12 @@ type Config struct {
 	Cors     CorsConfig
 	Logger   LoggerConfig
 	PassWord PasswordConfig
+	Otp      OtpConfig
+}
+type OtpConfig struct {
+	Digits     int
+	ExpireTime time.Duration
+	Limiter    time.Duration
 }
 
 type CorsConfig struct {
