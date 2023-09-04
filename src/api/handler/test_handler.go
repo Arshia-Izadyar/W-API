@@ -37,7 +37,6 @@ var UsersDB = map[string]User{"1": {Name: "arshia", Age: 19}}
 // @Router /api/v1/test/users [get]
 func (t *TestHandler) UsersList(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(UsersDB, true, 0))
-
 }
 
 // GetUser godoc
@@ -58,7 +57,6 @@ func (t *TestHandler) GetUser(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(u, true, 0))
-
 }
 
 func (t *TestHandler) CreateUser(ctx *gin.Context) {

@@ -34,7 +34,6 @@ func (i *IpRateLimiter) AddIp(ip string) *rate.Limiter {
 func (i *IpRateLimiter) GetLimiter(ip string) *rate.Limiter {
 	i.mu.Lock()
 	limiter, exits := i.ips[ip]
-
 	if !exits {
 		i.mu.Unlock()
 		return i.AddIp(ip)
