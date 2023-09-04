@@ -25,5 +25,4 @@ func NewHealthHandler() *HealthHandler {
 // @Router /api/v1/health/ [get]
 func (h *HealthHandler) HealthGet(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse("ok", true, http.StatusOK))
-	return
 }

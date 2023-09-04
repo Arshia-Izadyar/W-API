@@ -24,7 +24,7 @@ type User struct {
 	Age  int
 }
 
-var UsersDB = map[string]User{"1": User{Name: "arshia", Age: 19}}
+var UsersDB = map[string]User{"1": {Name: "arshia", Age: 19}}
 
 // UsersList godoc
 // @Summary Gs
@@ -37,7 +37,6 @@ var UsersDB = map[string]User{"1": User{Name: "arshia", Age: 19}}
 // @Router /api/v1/test/users [get]
 func (t *TestHandler) UsersList(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(UsersDB, true, 0))
-	return
 
 }
 
@@ -55,11 +54,10 @@ func (t *TestHandler) GetUser(ctx *gin.Context) {
 	id := ctx.Params.ByName("id")
 	u, ok := UsersDB[id]
 	if !ok {
-		ctx.JSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError("User Not Found", false, 0, errors.New("Cant find user")))
+		ctx.JSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError("user not found", false, 0, errors.New("cant find user")))
 		return
 	}
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(u, true, 0))
-	return
 
 }
 

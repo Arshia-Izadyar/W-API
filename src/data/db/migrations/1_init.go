@@ -95,7 +95,7 @@ func CreateAdminUser(db *gorm.DB, u *models.User, roleId int) {
 	db.
 		Model(&models.User{}).
 		Select("1").
-		Where("username = ?", u.UserName).
+		Where("user_name = ?", u.UserName).
 		First(&exists)
 	if exists == 0 {
 		db.Create(u)

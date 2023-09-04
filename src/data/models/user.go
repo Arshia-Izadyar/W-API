@@ -11,13 +11,13 @@ type User struct {
 	Email       sql.NullString `gorm:"size:64;type:string;null;unique;default:null"`
 	Password    string         `gorm:"size:64;type:string;not null"`
 	Enable      bool           `gorm:"default:true"`
-	userRoles   *[]UserRole
+	UserRoles   *[]UserRole
 }
 
 type Role struct {
 	BaseModel
-	Name  string `gorm:"size:20;not null;unique;type:string"`
-	Users *[]UserRole
+	Name      string `gorm:"size:20;not null;unique;type:string"`
+	UserRoles *[]UserRole
 }
 
 type UserRole struct {

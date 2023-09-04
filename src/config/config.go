@@ -16,11 +16,18 @@ type Config struct {
 	Logger   LoggerConfig
 	PassWord PasswordConfig
 	Otp      OtpConfig
+	Jwt      JwtConfig
 }
 type OtpConfig struct {
 	Digits     int
 	ExpireTime time.Duration
 	Limiter    time.Duration
+}
+
+type JwtConfig struct {
+	Secret                     string
+	AccessTokenExpireDuration  time.Duration
+	RefreshTokenExpireDuration time.Duration
 }
 
 type CorsConfig struct {
