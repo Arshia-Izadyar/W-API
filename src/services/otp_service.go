@@ -27,7 +27,6 @@ func NewOtpService(cfg *config.Config) *OtpService {
 	logger := logging.NewLogger(cfg)
 	rd := cache.GetRedis()
 	return &OtpService{logger: logger, cfg: cfg, redis: rd}
-
 }
 
 func (s *OtpService) SetOtp(mobileNumber string, otp string) *service_errors.ServiceError {

@@ -1,7 +1,6 @@
 package limiter
 
 import (
-	"fmt"
 	"sync"
 
 	"golang.org/x/time/rate"
@@ -35,8 +34,6 @@ func (i *IpRateLimiter) AddIp(ip string) *rate.Limiter {
 func (i *IpRateLimiter) GetLimiter(ip string) *rate.Limiter {
 	i.mu.Lock()
 	limiter, exits := i.ips[ip]
-	fmt.Println(i.ips)
-	fmt.Println(exits)
 
 	if !exits {
 		i.mu.Unlock()
