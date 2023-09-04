@@ -1,6 +1,18 @@
 package constants
 
-const AdminRoleName string = "admin"
-const DefaultRoleName string = "default"
-const DefaultUserName string = "admin"
-const DefaultRedisKey = "otp"
+const (
+	AdminRoleName           string = "admin"
+	DefaultRoleName         string = "default"
+	DefaultUserName         string = "admin"
+	DefaultRedisKey                = "otp"
+	AuthenTicationHeaderKey        = "Authorization"
+
+	// claims
+	UserIdKey   = "UserId"
+	FullNameKey = "FullName"
+	UserNameKey = "UserName"
+	PhoneKey    = "Phone"
+	EmailKey    = "Email"
+	RolesKey    = "Roles"
+	ExpKey      = "Exp"
+)

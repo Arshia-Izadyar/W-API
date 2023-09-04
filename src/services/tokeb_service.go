@@ -3,6 +3,7 @@ package services
 import (
 	"time"
 	"wapi/src/config"
+	"wapi/src/constants"
 	"wapi/src/dto"
 	"wapi/src/pkg/logging"
 	"wapi/src/pkg/service_errors"
@@ -39,13 +40,13 @@ func (ts *TokenService) GenerateToken(td *TokenDTO) (*dto.TokenDetail, error) {
 
 	accessTokenClaims := jwt.MapClaims{}
 
-	accessTokenClaims["user_id"] = td.UserId
-	accessTokenClaims["full_name"] = td.FullName
-	accessTokenClaims["username"] = td.UserName
-	accessTokenClaims["phone"] = td.Phone
-	accessTokenClaims["email"] = td.Email
-	accessTokenClaims["roles"] = td.Roles
-	accessTokenClaims["exp"] = tokenDetail.AccessTokenExpireTime
+	accessTokenClaims[constants.UserIdKey] = td.UserId
+	accessTokenClaims[constants.FullNameKey] = td.FullName
+	accessTokenClaims[constants.UserNameKey] = td.UserName
+	accessTokenClaims[constants.PhoneKey] = td.Phone
+	accessTokenClaims[constants.EmailKey] = td.Email
+	accessTokenClaims[constants.RolesKey] = td.Roles
+	accessTokenClaims[constants.ExpKey] = tokenDetail.AccessTokenExpireTime
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
 	var err error
@@ -56,8 +57,8 @@ func (ts *TokenService) GenerateToken(td *TokenDTO) (*dto.TokenDetail, error) {
 
 	refreshTokenClaims := jwt.MapClaims{}
 
-	refreshTokenClaims["user_id"] = td.UserId
-	refreshTokenClaims["exp"] = tokenDetail.RefreshTokenExpireTime
+	refreshTokenClaims[constants.UserIdKey] = td.UserId
+	refreshTokenClaims[constants.ExpKey] = tokenDetail.RefreshTokenExpireTime
 
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshTokenClaims)
 

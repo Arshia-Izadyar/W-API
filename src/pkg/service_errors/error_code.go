@@ -9,4 +9,8 @@ const (
 	EmailExists    = "email already exits"
 	UsernameExists = "Username already exits"
 	WrongPassword  = "WrongPassword"
+
+	TokenNotPresent = "no token provided"
+	TokenExpired    = "token is expired !"
+	TokenInvalid    = "provided token is invalid"
 )
