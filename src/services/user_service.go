@@ -250,5 +250,4 @@ func (u *UserServices) LoginByUsername(req *dto.LoginByUsername) (*dto.TokenDeta
 		return nil, err
 	}
 	return token, nil
-
 }

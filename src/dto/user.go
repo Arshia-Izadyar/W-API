@@ -16,7 +16,7 @@ type RegisterUserByUsername struct {
 	LastName  string `json:"last_name"`
 	Username  string `json:"username"`
 	Email     string `json:"email"`
-	Password  string `json:"password"`
+	Password  string `json:"password" binding:"password"`
 }
 
 type RegisterLoginByPhone struct {
@@ -26,5 +26,5 @@ type RegisterLoginByPhone struct {
 
 type LoginByUsername struct {
 	Username string `json:"username" binding:"required,min=3"`
-	Password string `json:"password" binding:"required,min=3"`
+	Password string `json:"password" binding:"required,min=3,password"`
 }
