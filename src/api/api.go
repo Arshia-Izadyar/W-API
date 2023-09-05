@@ -37,15 +37,19 @@ func RegisterValidators() {
 }
 
 func RegisterRouts(r *gin.Engine) {
+	cfg := config.LoadCfg()
 	api := r.Group("/api")
 
 	v1 := api.Group("/v1")
 	{
 		users := v1.Group("/users")
-		routers.UserRouter(users, config.LoadCfg())
+		routers.UserRouter(users, cfg)
 
-		test := v1.Group("/test")
-		routers.TestRouter(test)
+		// test := v1.Group("/test")
+		// routers.TestRouter(test)
+
+		country := v1.Group("/country", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
+		routers.CountryRouter(country, cfg)
 
 	}
 }
