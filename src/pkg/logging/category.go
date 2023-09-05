@@ -23,6 +23,7 @@ const (
 	Select    SubCategory = "Select"
 	Rollback  SubCategory = "Rollback"
 	Update    SubCategory = "Update"
+	Get 	  SubCategory = "Get"
 	Delete    SubCategory = "Delete"
 	Insert    SubCategory = "Insert"
 
