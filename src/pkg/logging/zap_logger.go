@@ -27,7 +27,6 @@ func newZapLogger(cfg *config.Config) *zapLogger {
 	logger := &zapLogger{cfg: cfg}
 	logger.Init()
 	return logger
-
 }
 
 func (l *zapLogger) getLogLevel() zapcore.Level {

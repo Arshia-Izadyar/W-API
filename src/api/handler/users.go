@@ -73,7 +73,6 @@ func (uh *UsersHandler) LoginByUsername(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(token, true, 0))
-
 }
 
 // RegisterLoginByPhone godoc

@@ -31,9 +31,7 @@ func Authentication(cfg *config.Config) gin.HandlerFunc {
 				default:
 					err = &service_errors.ServiceError{EndUserMessage: service_errors.TokenInvalid}
 				}
-
 			}
-
 		}
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, helper.GenerateBaseResponseWithError(nil, false, -2, err))
