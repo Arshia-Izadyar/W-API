@@ -16,7 +16,7 @@ type CountryHandler struct {
 	service *services.GenericCountryService
 }
 
-func NewCountryHandler(cfg *config.Config) *CountryHandler{ 
+func NewCountryHandler(cfg *config.Config) *CountryHandler {
 	srv := services.NewGenericCountryService(cfg)
 	return &CountryHandler{
 		service: srv,
@@ -30,7 +30,7 @@ func (ch *CountryHandler) CreateCountry(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
 		return
 	}
-	res ,err := ch.service.GenericCreateCountry(ctx, &req)
+	res, err := ch.service.GenericCreateCountry(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
 		return
@@ -67,7 +67,7 @@ func (ch *CountryHandler) DeleteCountry(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
 		return
 	}
-	ctx.JSON(http.StatusNoContent, helper.GenerateBaseResponse(gin.H{"Status":"Deleted"}, true, 0))
+	ctx.JSON(http.StatusNoContent, helper.GenerateBaseResponse(gin.H{"Status": "Deleted"}, true, 0))
 
 }
 
@@ -80,6 +80,22 @@ func (ch *CountryHandler) GetCountryById(ctx *gin.Context) {
 		return
 	}
 	res, err := ch.service.GenericGetCountryById(ctx, id)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		return
+	}
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+
+}
+
+func (ch *CountryHandler) GetCountryByFilter(ctx *gin.Context) {
+	req := dto.PaginationInputWithFilter{}
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		return
+	}
+	res, err := ch.service.GenericGetByFilter(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
 		return

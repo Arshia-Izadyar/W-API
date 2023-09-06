@@ -11,20 +11,19 @@ import (
 
 type GenericCountryService struct {
 	base *BaseService[models.Country, dto.CreateUpdateCountryDTO, dto.CreateUpdateCountryDTO, dto.CountryResponse]
-
 }
 
 func NewGenericCountryService(cfg *config.Config) *GenericCountryService {
 	return &GenericCountryService{
 		base: &BaseService[models.Country, dto.CreateUpdateCountryDTO, dto.CreateUpdateCountryDTO, dto.CountryResponse]{
 			Database: db.GetDB(),
-			Logger: logging.NewLogger(cfg),
-
+			Logger:   logging.NewLogger(cfg),
 		},
 	}
 }
+
 // # create """  py comment  """
-func (cs *GenericCountryService) GenericCreateCountry(ctx context.Context,req *dto.CreateUpdateCountryDTO) (*dto.CountryResponse, error) {
+func (cs *GenericCountryService) GenericCreateCountry(ctx context.Context, req *dto.CreateUpdateCountryDTO) (*dto.CountryResponse, error) {
 	res, err := cs.base.Create(ctx, req)
 	if err != nil {
 		return nil, err
@@ -34,13 +33,12 @@ func (cs *GenericCountryService) GenericCreateCountry(ctx context.Context,req *d
 
 // Update
 func (cs *GenericCountryService) GenericUpdateCountry(ctx context.Context, id int, req *dto.CreateUpdateCountryDTO) (*dto.CountryResponse, error) {
-	res, err := cs.base.Update(ctx, id,req)
+	res, err := cs.base.Update(ctx, id, req)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
 }
-
 
 // Delete
 func (cs *GenericCountryService) GenericDeleteCountry(ctx context.Context, id int) error {
@@ -58,3 +56,6 @@ func (cs *GenericCountryService) GenericGetCountryById(ctx context.Context, id i
 
 }
 
+func (cs *GenericCountryService) GenericGetByFilter(ctx context.Context, req *dto.PaginationInputWithFilter) (*dto.PageList[dto.CountryResponse], error) {
+	return cs.base.GetByFilter(ctx, req)
+}

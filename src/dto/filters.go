@@ -18,12 +18,12 @@ type DynamicFilter struct {
 }
 
 type PageList[T any] struct {
-	PageNumber  int  `json:"page_number"`
-	TotalRows   int  `json:"total_rows"`
-	TotalPages  int  `json:"total_pages"`
-	HasPervious bool `json:"has_pervious"`
-	HasNextPage bool `json:"has_next_page"`
-	Items       *[]T `json:"items"`
+	PageNumber  int   `json:"page_number"`
+	TotalRows   int64 `json:"total_rows"`
+	TotalPages  int   `json:"total_pages"`
+	HasPervious bool  `json:"has_pervious"`
+	HasNextPage bool  `json:"has_next_page"`
+	Items       *[]T  `json:"items"`
 }
 
 type PaginationInput struct {
