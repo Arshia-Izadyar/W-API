@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"time"
+	"wapi/src/constants"
 
 	"gorm.io/gorm"
 )
@@ -18,18 +19,18 @@ type BaseModel struct {
 }
 
 func (b *BaseModel) BeforeCreate(tx *gorm.DB) (err error) {
-	value := tx.Statement.Context.Value("UserId")
+	value := tx.Statement.Context.Value(constants.UserIdKey)
 	var userId int = -1
 	if value != nil {
 		userId = int(value.(float64))
 	}
-	b.CreatedAt = time.Now().UTC()
+	b.CreatedAt = time.Now()
 	b.CreatedBy = userId
 	return
 }
 
-func (b *BaseModel) BeforeUpdate(tx *gorm.DB) {
-	value := tx.Statement.Context.Value("UserId")
+func (b *BaseModel) BeforeUpdate(tx *gorm.DB)(err error) {
+	value := tx.Statement.Context.Value(constants.UserIdKey)
 	var userId = &sql.NullInt64{
 		Valid: false,
 	}

@@ -17,6 +17,7 @@ var logger = logging.NewLogger(config.LoadCfg())
 func Up_1() {
 	database := db.GetDB()
 	createTables(database)
+	createCountries(database)
 
 }
 
@@ -103,6 +104,33 @@ func CreateAdminUser(db *gorm.DB, u *models.User, roleId int) {
 		db.Create(&userRole)
 	}
 }
+
+
+func createCountries(db *gorm.DB) {
+	count := 0
+	db.Model(models.Country{}).Select("count(*)").Find(&count)
+	if count == 0 {
+		db.Create(&models.Country{Name: "Iran", Cities: &[]models.City{
+			{Name: "tehran"},
+			{Name: "shiraz"},
+			{Name: "ghazvin"},
+			{Name: "ahvaz"},
+			{Name: "kerman"},
+		}})
+		db.Create(&models.Country{Name: "USA", Cities: &[]models.City{
+			{Name: "NY"},
+			{Name: "Ws"},
+			{Name: "Tx"},
+		}})
+		db.Create(&models.Country{Name: "Germany", Cities: &[]models.City{
+			{Name: "Berlin"},
+			{Name: "deF"},
+			{Name: "deA"},
+		}})
+	}
+}
+
+
 
 func Down_1() {
 
