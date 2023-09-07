@@ -13,7 +13,7 @@ type City struct {
 	BaseModel
 	Name      string `gorm:"size:10;type:string;not null"`
 	CountryId int
-	Country   Country `gorm:"foreignKey:CountryId"`
+	Country   Country `gorm:"foreignKey:CountryId;constraint:OnUpdate:NO ACTION;OnDelete:NO ACTION"`
 }
 
 type PersianYear struct {

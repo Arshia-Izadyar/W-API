@@ -18,11 +18,12 @@ func NewGenericCountryService(cfg *config.Config) *GenericCountryService {
 		base: &BaseService[models.Country, dto.CreateUpdateCountryDTO, dto.CreateUpdateCountryDTO, dto.CountryResponse]{
 			Database: db.GetDB(),
 			Logger:   logging.NewLogger(cfg),
+			Preloads: []preload{{name: "Cities"}}, // []preload{{string: "Cities.Region"}} Chain preload
 		},
 	}
 }
 
-// # create """  py comment  """
+// create
 func (cs *GenericCountryService) GenericCreateCountry(ctx context.Context, req *dto.CreateUpdateCountryDTO) (*dto.CountryResponse, error) {
 	res, err := cs.base.Create(ctx, req)
 	if err != nil {

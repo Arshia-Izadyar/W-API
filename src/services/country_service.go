@@ -119,7 +119,7 @@ func (cs *CountryService) GetCitiesByCountryId(ctx context.Context, id int) (*dt
 	db = db.Preload("Cities")
 	if err := db.Where("id = ?", id).First(&country).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return nil, fmt.Errorf("Country with ID %d not found", id)
+			return nil, fmt.Errorf("country with ID %d not found", id)
 		}
 		return nil, err
 	}

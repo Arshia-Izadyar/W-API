@@ -25,7 +25,7 @@ type preload struct {
 }
 
 //				 -dto	 +dto
-//	     model -create  +update  response
+//	            model -create  +update  response
 type BaseService[T any, TC any, TU any, TR any] struct {
 	Database *gorm.DB
 	Logger   logging.Logger
@@ -36,32 +36,26 @@ func NewBaseService[T any, TC any, TU any, TR any](cfg *config.Config) *BaseServ
 	return &BaseService[T, TC, TU, TR]{
 		Database: db.GetDB(),
 		Logger:   logging.NewLogger(cfg),
-		Preloads: []preload{{name: "Cities"}}, // []preload{{string: "Cities.Region"}} Chain preload
 	}
 }
 
-func (bs *BaseService[T, TC, TU, TR]) Create(ctx context.Context, req *TC) (*TR, error) {
-	model, err := common.TypeConverter[T](req)
-	if err != nil {
-		return nil, err
-	}
-	tx := bs.Database.WithContext(ctx).Begin()
-	err = tx.Create(&model).Error
+func (s *BaseService[T, TC, TU, TR]) Create(ctx context.Context, req *TC) (*TR, error) {
+	model, _ := common.TypeConverter[T](req)
+	tx := s.Database.WithContext(ctx).Begin()
+	err := tx.
+		Create(model).
+		Error
 	if err != nil {
 		tx.Rollback()
-		bs.Logger.Error(err, logging.Postgres, logging.Insert, "cant add country", nil)
+		s.Logger.Error(err, logging.Postgres, logging.Insert, "cant insert", nil)
 		return nil, err
 	}
 	tx.Commit()
-	bm, err := common.TypeConverter[models.BaseModel](model)
-	if err != nil {
-		bs.Logger.Error(err, logging.Postgres, logging.Select, "cant select country", nil)
-		return nil, err
-	}
-	return bs.GetById(ctx, bm.Id)
+	bm, _ := common.TypeConverter[models.BaseModel](model)
+	return s.GetById(ctx, bm.Id)
 }
 
-func (bs *BaseService[T, TC, TU, TR]) Update(ctx context.Context, id int, req *TC) (*TR, error) {
+func (bs *BaseService[T, TC, TU, TR]) Update(ctx context.Context, id int, req *TU) (*TR, error) {
 	updateMap, err := common.TypeConverter[map[string]interface{}](req)
 	if err != nil {
 		return nil, err
@@ -112,7 +106,7 @@ func (bs *BaseService[T, TC, TU, TR]) Delete(ctx context.Context, id int) error 
 func (bs *BaseService[T, TC, TU, TR]) GetById(ctx context.Context, id int) (*TR, error) {
 	model := new(T)
 	db := Preload(bs.Database, bs.Preloads)
-	err := db.Model(&models.Country{}).
+	err := db.Model(&model).
 		Where("id = ? AND deleted_by IS NULL", id).
 		First(&model).
 		Error
@@ -242,7 +236,7 @@ func Paginate[T any, Tr any](pagination *dto.PaginationInputWithFilter, preloads
 	model := new(T)
 	var items *[]T
 	var rItems *[]Tr
-	// db = Preload(db, preloads)
+	db = Preload(db, preloads)
 	// db = db.Preload("Cities")
 	// db = db.Preload("Country")
 	query := getQuery[T](&pagination.DynamicFilter)
@@ -261,7 +255,7 @@ func Paginate[T any, Tr any](pagination *dto.PaginationInputWithFilter, preloads
 	}
 	err = db.
 		Where(query).
-		Preload("Cities").
+		// Preload("Cities").
 		Offset(pagination.GetOffSet()).
 		Limit(pagination.GetPageSize()).
 		Order(sort).

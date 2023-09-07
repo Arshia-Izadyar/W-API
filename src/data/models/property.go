@@ -2,9 +2,9 @@ package models
 
 type PropertyCategory struct {
 	BaseModel
-	Name       string `gorm:"size:15;type:string;not null"`
-	Icon       string `gorm:"size:250;type:string;null"`
-	Properties []Property
+	Name       string     `gorm:"size:15;type:string;not null"`
+	Icon       string     `gorm:"size:250;type:string;null"`
+	Properties []Property `gorm:"foreignKey:CategoryId"`
 }
 
 type Property struct {

@@ -24,23 +24,36 @@ func Up_1() {
 func createTables(database *gorm.DB) {
 	tables := []interface{}{}
 
-	country := models.Country{}
-	city := models.City{}
-	user := models.User{}
-	role := models.Role{}
-	userRole := models.UserRole{}
+	tables = addNewTable(database, models.Country{}, tables)
+	tables = addNewTable(database, models.City{}, tables)
+	tables = addNewTable(database, models.File{}, tables)
+	tables = addNewTable(database, models.PersianYear{}, tables)
+	// Property
+	tables = addNewTable(database, models.PropertyCategory{}, tables)
+	tables = addNewTable(database, models.Property{}, tables)
 
-	// 1
-	tables = addNewTable(database, country, tables)
-	tables = addNewTable(database, city, tables)
+	// User
+	tables = addNewTable(database, models.User{}, tables)
+	tables = addNewTable(database, models.Role{}, tables)
+	tables = addNewTable(database, models.UserRole{}, tables)
 
-	// 2
-	tables = addNewTable(database, user, tables)
-	tables = addNewTable(database, role, tables)
-	tables = addNewTable(database, userRole, tables)
+	// Car
+	tables = addNewTable(database, models.Company{}, tables)
+	tables = addNewTable(database, models.Gearbox{}, tables)
+	tables = addNewTable(database, models.Color{}, tables)
+	tables = addNewTable(database, models.CarType{}, tables)
+
+	tables = addNewTable(database, models.CarModel{}, tables)
+	tables = addNewTable(database, models.CarModelColor{}, tables)
+	tables = addNewTable(database, models.CarModelYear{}, tables)
+	tables = addNewTable(database, models.CarModelFile{}, tables)
+	tables = addNewTable(database, models.CarModelPriceHistory{}, tables)
+	tables = addNewTable(database, models.CarModelProperty{}, tables)
+	tables = addNewTable(database, models.CarModelComment{}, tables)
 
 	err := database.Migrator().CreateTable(tables...)
 	if err != nil {
+		logger.Error(err, logging.Postgres, logging.Insert, "cant add tables", nil)
 		panic(err)
 	}
 
