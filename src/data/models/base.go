@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Country struct {
+type Country struct { // one to many
 	BaseModel
 	Name      string `gorm:"size:15;type:string;not null"`
 	Cities    []City
@@ -18,16 +18,18 @@ type City struct {
 
 type PersianYear struct {
 	BaseModel
-	PersianTitle string    `gorm:"size:15;type:string;not null;unique"`
-	Year         int       `gorm:"type:int;uniqueIndex;not null"`
-	StartAt      time.Time `gorm:"type:TIMESTAMP with time zone;not null;unique"`
-	EndAt        time.Time `gorm:"type:TIMESTAMP with time zone;not null;unique"`
+	PersianTitle  string    `gorm:"size:15;type:string;not null;unique"`
+	Year          int       `gorm:"type:int;uniqueIndex;not null"`
+	StartAt       time.Time `gorm:"type:TIMESTAMP with time zone;not null;unique"`
+	EndAt         time.Time `gorm:"type:TIMESTAMP with time zone;not null;unique"`
+	CarModelYears []CarModelYear
 }
 
 type Color struct {
 	BaseModel
-	Name string `gorm:"size:15;type:string;not null"`
-	Hex  string `gorm:"size:7;type:string;not null"`
+	Name           string `gorm:"size:15;type:string;not null"`
+	Hex            string `gorm:"size:7;type:string;not null"`
+	CarModelColors []CarModelColor
 }
 
 type File struct {
