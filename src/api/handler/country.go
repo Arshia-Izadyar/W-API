@@ -26,6 +26,17 @@ func NewCountryHandler(cfg *config.Config) *CountryHandler {
 	}
 }
 
+// CreateCountry godoc
+// @Summary Create a Country
+// @Description Create a Country
+// @Tags Countries
+// @Accept json
+// @produces json
+// @Param Request body dto.CreateUpdateCountryDTO true "Create a Country"
+// @Success 201 {object} helper.Response "Country response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Router /v1/country/create [post]
+// @Security AuthBearer
 func (ch *CountryHandler) CreateCountry(ctx *gin.Context) {
 	req := dto.CreateUpdateCountryDTO{}
 	err := ctx.ShouldBindJSON(&req)
@@ -41,6 +52,17 @@ func (ch *CountryHandler) CreateCountry(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
 }
 
+// UpdateCountry godoc
+// @Summary Update a Country
+// @Description Update a Country
+// @Tags Countries
+// @Accept json
+// @produces json
+// @Param Request body dto.CreateUpdateCountryDTO true "Create a Country"
+// @Success 200 {object} helper.Response "Country response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Router /v1/country/update/{id} [put]
+// @Security AuthBearer
 func (ch *CountryHandler) UpdateCountry(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	req := dto.CreateUpdateCountryDTO{}
@@ -57,6 +79,16 @@ func (ch *CountryHandler) UpdateCountry(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
 }
 
+// DeleteCountry godoc
+// @Summary Delete a Country
+// @Description Delete a Country
+// @Tags Countries
+// @Accept json
+// @produces json
+// @Success 204 {object} helper.Response "Country response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Router /v1/country/delete/{id} [delete]
+// @Security AuthBearer
 func (ch *CountryHandler) DeleteCountry(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
@@ -74,6 +106,16 @@ func (ch *CountryHandler) DeleteCountry(ctx *gin.Context) {
 
 }
 
+// GetCountryById godoc
+// @Summary Get a Country
+// @Description Get a Country
+// @Tags Countries
+// @Accept json
+// @produces json
+// @Success 200 {object} helper.Response "Country response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Router /v1/country/get/{id} [get]
+// @Security AuthBearer
 func (ch *CountryHandler) GetCountryById(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	req := dto.CountryResponse{}
@@ -91,6 +133,17 @@ func (ch *CountryHandler) GetCountryById(ctx *gin.Context) {
 
 }
 
+// GetCountryByFilter godoc
+// @Summary GetCountryByFilter
+// @Description GetCountryByFilter
+// @Tags Countries
+// @Accept json
+// @produces json
+// @Param Request body dto.PaginationInputWithFilter true "GetCountryByFilter"
+// @Success 200 {object} helper.Response "Country response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Router /v1/country/filter [post]
+// @Security AuthBearer
 func (ch *CountryHandler) GetCountryByFilter(ctx *gin.Context) {
 	req := dto.PaginationInputWithFilter{}
 	err := ctx.ShouldBindJSON(&req)

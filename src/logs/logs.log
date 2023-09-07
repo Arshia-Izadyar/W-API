@@ -186,3 +186,7 @@
 {"level":"info","ts":"2023-09-07T14:40:11.499+0330","caller":"migrations/1_init.go:62","msg":"added tables","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Insert"}
 {"level":"info","ts":"2023-09-07T14:40:45.550+0330","caller":"db/postgres.go:40","msg":"postgres started","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Startup"}
 {"level":"info","ts":"2023-09-07T14:40:45.561+0330","caller":"migrations/1_init.go:62","msg":"added tables","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Insert"}
+{"level":"info","ts":"2023-09-07T14:51:38.391+0330","caller":"db/postgres.go:40","msg":"postgres started","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Startup"}
+{"level":"info","ts":"2023-09-07T14:51:38.403+0330","caller":"migrations/1_init.go:62","msg":"added tables","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Insert"}
+{"level":"info","ts":"2023-09-07T14:57:19.003+0330","caller":"db/postgres.go:40","msg":"postgres started","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Startup"}
+{"level":"info","ts":"2023-09-07T14:57:19.016+0330","caller":"migrations/1_init.go:62","msg":"added tables","AppName":"MyApp","LoggerName":"ZapLogger","Category":"Postgres","SubCategory":"Insert"}

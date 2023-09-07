@@ -22,6 +22,17 @@ func NewCityHandler(cfg *config.Config) *CityHandler {
 	}
 }
 
+// CreateCity godoc
+// @Summary Create a City
+// @Description Create a City
+// @Tags Cities
+// @Accept json
+// @produces json
+// @Param Request body dto.CreateCityRequest true "Create a City"
+// @Success 201 {object} helper.Response{result=dto.CityResponse} "City response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Router /v1/city/create [post]
+// @Security AuthBearer
 func (ch *CityHandler) CreateCity(ctx *gin.Context) {
 	req := dto.CreateCityRequest{}
 	err := ctx.ShouldBindJSON(&req)
@@ -38,6 +49,19 @@ func (ch *CityHandler) CreateCity(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
 }
 
+// UpdateCity godoc
+// @Summary Update a City
+// @Description Update a City
+// @Tags Cities
+// @Accept json
+// @produces json
+// @Param id path int true "Id"
+// @Param Request body dto.UpdateCityRequest true "Update a City"
+// @Success 200 {object} helper.Response{result=dto.CityResponse} "City response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Failure 404 {object} helper.Response "Not found"
+// @Router /v1/city/update/{id} [put]
+// @Security AuthBearer
 func (ch *CityHandler) UpdateCity(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	req := dto.UpdateCityRequest{}
@@ -54,6 +78,18 @@ func (ch *CityHandler) UpdateCity(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
 }
 
+// DeleteCity godoc
+// @Summary Delete a City
+// @Description Delete a City
+// @Tags Cities
+// @Accept json
+// @produces json
+// @Param id path int true "Id"
+// @Success 200 {object} helper.Response "response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Failure 404 {object} helper.Response "Not found"
+// @Router /v1/city/get/{id} [delete]
+// @Security AuthBearer
 func (ch *CityHandler) GetCityById(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	req := dto.CityResponse{}
@@ -70,6 +106,18 @@ func (ch *CityHandler) GetCityById(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
 }
 
+// GetCity godoc
+// @Summary Get a City
+// @Description Get a City
+// @Tags Cities
+// @Accept json
+// @produces json
+// @Param id path int true "Id"
+// @Success 200 {object} helper.Response "City response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Failure 404 {object} helper.Response "Not found"
+// @Router /v1/cities/delete/{id} [get]
+// @Security AuthBearer
 func (ch *CityHandler) DeleteCity(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	if id == 0 {
@@ -85,6 +133,17 @@ func (ch *CityHandler) DeleteCity(ctx *gin.Context) {
 
 }
 
+// GetCities godoc
+// @Summary Get Cities
+// @Description Get Cities
+// @Tags Cities
+// @Accept json
+// @produces json
+// @Param Request body dto.PaginationInputWithFilter true "Request"
+// @Success 200 {object} helper.Response "City response"
+// @Failure 400 {object} helper.Response "Bad request"
+// @Router /v1/cities/filter [post]
+// @Security AuthBearer
 func (ch *CityHandler) GetByFilter(ctx *gin.Context) {
 	req := dto.PaginationInputWithFilter{}
 	err := ctx.ShouldBindJSON(&req)
