@@ -126,6 +126,11 @@ definitions:
         minLength: 3
         type: string
     type: object
+  dto.UpdateFileRequest:
+    properties:
+      description:
+        type: string
+    type: object
   helper.Response:
     properties:
       error: {}
@@ -402,6 +407,12 @@ paths:
       consumes:
       - application/json
       description: Delete a Country
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
       responses:
         "204":
           description: Country response
@@ -416,7 +427,7 @@ paths:
       summary: Delete a Country
       tags:
       - Countries
-  /v1/country/get-by-filter:
+  /v1/country/filter:
     post:
       consumes:
       - application/json
@@ -447,6 +458,12 @@ paths:
       consumes:
       - application/json
       description: Get a Country
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
       responses:
         "200":
           description: Country response
@@ -467,6 +484,11 @@ paths:
       - application/json
       description: Update a Country
       parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
       - description: Create a Country
         in: body
         name: Request
@@ -487,6 +509,110 @@ paths:
       summary: Update a Country
       tags:
       - Countries
+  /v1/files/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Create File
+      parameters:
+      - in: formData
+        name: description
+        required: true
+        type: string
+      - description: CreateFile
+        in: formData
+        name: file
+        required: true
+        type: file
+      responses:
+        "200":
+          description: CreateFile response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create File
+      tags:
+      - File
+  /v1/files/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete File
+      responses:
+        "200":
+          description: DeleteFile response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete File
+      tags:
+      - File
+  /v1/files/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get File
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: GetFile response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get File
+      tags:
+      - File
+  /v1/files/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update File
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: UpdateFile
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateFileRequest'
+      responses:
+        "200":
+          description: UpdateFile response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update File
+      tags:
+      - File
   /v1/users/login-by-username:
     post:
       consumes:

@@ -11,14 +11,16 @@ type Response struct {
 }
 
 func GenerateBaseResponse(result any, success bool, resultCode int) *Response {
-	return &Response{Result: result,
+	return &Response{
+		Result:     result,
 		Success:    success,
 		ResultCode: resultCode,
 	}
 }
 
 func GenerateBaseResponseWithError(result any, success bool, resultCode int, err error) *Response {
-	return &Response{Result: result,
+	return &Response{
+		Result:     result,
 		Success:    success,
 		ResultCode: resultCode,
 		Error:      err.Error(),
@@ -27,7 +29,8 @@ func GenerateBaseResponseWithError(result any, success bool, resultCode int, err
 
 func GenerateBaseResponseWithValidationError(result any, success bool, resultCode int, err error) *Response {
 	ve := validators.GetValidationErrors(err)
-	return &Response{Result: result,
+	return &Response{
+		Result:           result,
 		Success:          success,
 		ResultCode:       resultCode,
 		ValidationErrors: ve,
