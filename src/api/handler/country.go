@@ -14,12 +14,15 @@ import (
 
 type CountryHandler struct {
 	service *services.GenericCountryService
+	ss      *services.CountryService
 }
 
 func NewCountryHandler(cfg *config.Config) *CountryHandler {
 	srv := services.NewGenericCountryService(cfg)
+	ss := services.NewCountryService(cfg)
 	return &CountryHandler{
 		service: srv,
+		ss:      ss,
 	}
 }
 
@@ -98,6 +101,23 @@ func (ch *CountryHandler) GetCountryByFilter(ctx *gin.Context) {
 	res, err := ch.service.GenericGetByFilter(ctx, &req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		return
+	}
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+
+}
+
+func (ch *CountryHandler) GetCitiesById(ctx *gin.Context) {
+	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+	req := dto.CountryResponse{}
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		return
+	}
+	res, err := ch.ss.GetCitiesByCountryId(ctx, id)
+	if err != nil {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
 		return
 	}
 	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))

@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"time"
 	"wapi/src/config"
 	"wapi/src/constants"
@@ -15,21 +16,20 @@ import (
 )
 
 type CountryService struct {
-	db *gorm.DB
+	db     *gorm.DB
 	logger logging.Logger
-
 }
 
 func NewCountryService(cfg *config.Config) *CountryService {
 	logger := logging.NewLogger(cfg)
 	db := db.GetDB()
 	return &CountryService{
-		db: db,
+		db:     db,
 		logger: logger,
 	}
 }
 
-// create 
+// create
 func (cs *CountryService) CreateCountry(ctx context.Context, req *dto.CreateUpdateCountryDTO) (*dto.CountryResponse, error) {
 	country := &models.Country{
 		Name: req.Name,
@@ -55,7 +55,7 @@ func (cs *CountryService) CreateCountry(ctx context.Context, req *dto.CreateUpda
 // Update
 func (cs *CountryService) UpdateCountry(ctx context.Context, id int, req *dto.CreateUpdateCountryDTO) (*dto.CountryResponse, error) {
 	updateMap := map[string]interface{}{
-		"name":req.Name,
+		"name":        req.Name,
 		"modified_by": &sql.NullInt64{Valid: true, Int64: int64(ctx.Value(constants.UserIdKey).(float64))},
 		"modified_at": &sql.NullTime{Valid: true, Time: time.Now().UTC()},
 	}
@@ -82,7 +82,7 @@ func (cs *CountryService) UpdateCountry(ctx context.Context, id int, req *dto.Cr
 func (cs *CountryService) DeleteCountry(ctx context.Context, id int) error {
 	tx := cs.db.WithContext(ctx).Begin()
 	deleteMap := map[string]interface{}{
-		"deleted_at": &sql.NullTime{Valid:true, Time:time.Now().UTC()},
+		"deleted_at": &sql.NullTime{Valid: true, Time: time.Now().UTC()},
 		"deleted_by": &sql.NullInt64{Valid: true, Int64: int64(ctx.Value(constants.UserIdKey).(float64))},
 	}
 	err := tx.Model(&models.Country{}).Where("id = ?", id).Updates(deleteMap).Error
@@ -101,15 +101,48 @@ func (cs *CountryService) GetCountryById(ctx context.Context, id int) (*dto.Coun
 	country := &models.Country{}
 
 	err := cs.db.Model(&models.Country{}).
-	Where("id = ? AND deleted_by IS NULL", id).
-	First(&country).
-	Error
+		Where("id = ? AND deleted_by IS NULL", id).
+		First(&country).
+		Error
 
 	if err != nil {
 		cs.logger.Error(err, logging.Postgres, logging.Get, "cant delete country", nil)
 		return nil, err
 	}
-	c := &dto.CountryResponse{Name: country.Name, ID:country.Id}
+	c := &dto.CountryResponse{Name: country.Name, ID: country.Id}
 	return c, nil
 }
 
+func (cs *CountryService) GetCitiesByCountryId(ctx context.Context, id int) (*dto.CountryResponse, error) {
+	country := &models.Country{}
+	db := cs.db.Model(models.Country{})
+	db = db.Preload("Cities")
+	if err := db.Where("id = ?", id).First(&country).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, fmt.Errorf("Country with ID %d not found", id)
+		}
+		return nil, err
+	}
+
+	// Map the country and cities to the response DTO
+	countryResponse := &dto.CountryResponse{
+		ID:   country.Id,
+		Name: country.Name,
+	}
+
+	cityResponses := make([]dto.CityResponse, len(country.Cities))
+	for i, city := range country.Cities {
+		cityResponses[i] = dto.CityResponse{
+			ID:   city.Id,
+			Name: city.Name,
+			// Country: dto.CountryResponse{
+			// 	ID:   country.Id,
+			// 	Name: country.Name,
+			// },
+		}
+	}
+
+	countryResponse.Cities = cityResponses
+
+	return countryResponse, nil
+}

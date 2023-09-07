@@ -105,32 +105,35 @@ func CreateAdminUser(db *gorm.DB, u *models.User, roleId int) {
 	}
 }
 
-
 func createCountries(db *gorm.DB) {
 	count := 0
 	db.Model(models.Country{}).Select("count(*)").Find(&count)
 	if count == 0 {
-		db.Create(&models.Country{Name: "Iran", Cities: &[]models.City{
-			{Name: "tehran"},
-			{Name: "shiraz"},
-			{Name: "ghazvin"},
-			{Name: "ahvaz"},
-			{Name: "kerman"},
-		}})
-		db.Create(&models.Country{Name: "USA", Cities: &[]models.City{
-			{Name: "NY"},
-			{Name: "Ws"},
-			{Name: "Tx"},
-		}})
-		db.Create(&models.Country{Name: "Germany", Cities: &[]models.City{
-			{Name: "Berlin"},
-			{Name: "deF"},
-			{Name: "deA"},
-		}})
+		iran := models.Country{Name: "Iran"}
+		db.Create(&iran)
+
+		usa := models.Country{Name: "USA"}
+		db.Create(&usa)
+
+		germany := models.Country{Name: "Germany"}
+		db.Create(&germany)
+
+		// Create cities and set the CountryId
+		db.Create(&models.City{Name: "tehran", CountryId: iran.Id})
+		db.Create(&models.City{Name: "shiraz", CountryId: iran.Id})
+		db.Create(&models.City{Name: "ghazvin", CountryId: iran.Id})
+		db.Create(&models.City{Name: "ahvaz", CountryId: iran.Id})
+		db.Create(&models.City{Name: "kerman", CountryId: iran.Id})
+
+		db.Create(&models.City{Name: "NY", CountryId: usa.Id})
+		db.Create(&models.City{Name: "Ws", CountryId: usa.Id})
+		db.Create(&models.City{Name: "Tx", CountryId: usa.Id})
+
+		db.Create(&models.City{Name: "Berlin", CountryId: germany.Id})
+		db.Create(&models.City{Name: "deF", CountryId: germany.Id})
+		db.Create(&models.City{Name: "deA", CountryId: germany.Id})
 	}
 }
-
-
 
 func Down_1() {
 

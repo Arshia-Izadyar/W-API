@@ -7,7 +7,7 @@ type CreateUpdateCountryDTO struct {
 type CountryResponse struct {
 	ID     int            `json:"id"`
 	Name   string         `json:"name"`
-	Cities []CityResponse `json:"cities"`
+	Cities []CityResponse `json:"cities,omitempty"`
 }
 
 type CreateUpdateCityDTO struct {
@@ -15,7 +15,7 @@ type CreateUpdateCityDTO struct {
 }
 
 type CityResponse struct {
-	ID      int             `json:"id"`
-	Name    string          `json:"name"`
-	Country CountryResponse `json:"country"`
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	// Country CountryResponse `json:"country,omitempty"`
 }

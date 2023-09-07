@@ -21,7 +21,7 @@ import (
 )
 
 type preload struct {
-	string
+	name string
 }
 
 //				 -dto	 +dto
@@ -36,7 +36,7 @@ func NewBaseService[T any, TC any, TU any, TR any](cfg *config.Config) *BaseServ
 	return &BaseService[T, TC, TU, TR]{
 		Database: db.GetDB(),
 		Logger:   logging.NewLogger(cfg),
-		Preloads: []preload{{string: "Cities"}}, // []preload{{string: "Cities.Region"}} Chain preload
+		Preloads: []preload{{name: "Cities"}}, // []preload{{string: "Cities.Region"}} Chain preload
 	}
 }
 
@@ -195,7 +195,12 @@ func getSort[T any](filter *dto.DynamicFilter) string {
 
 func Preload(db *gorm.DB, preloads []preload) *gorm.DB {
 	for _, item := range preloads {
-		db = db.Preload(item.string)
+		err := db.Preload(item.name).Error
+		if err == nil {
+			db = db.Preload(item.name)
+		} else {
+			panic(err)
+		}
 	}
 	return db
 }
@@ -237,19 +242,26 @@ func Paginate[T any, Tr any](pagination *dto.PaginationInputWithFilter, preloads
 	model := new(T)
 	var items *[]T
 	var rItems *[]Tr
-	db = Preload(db, preloads)
+	// db = Preload(db, preloads)
+	// db = db.Preload("Cities")
+	// db = db.Preload("Country")
 	query := getQuery[T](&pagination.DynamicFilter)
 	sort := getSort[T](&pagination.DynamicFilter)
 
 	var totalRows int64 = 0
 
-	db.
+	err := db.
 		Model(model).
 		Where(query).
-		Count(&totalRows)
+		Count(&totalRows).
+		Error
 
-	err := db.
+	if err != nil {
+		return nil, err
+	}
+	err = db.
 		Where(query).
+		Preload("Cities").
 		Offset(pagination.GetOffSet()).
 		Limit(pagination.GetPageSize()).
 		Order(sort).
