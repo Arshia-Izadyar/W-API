@@ -42,17 +42,25 @@ func RegisterRouts(r *gin.Engine) {
 
 	v1 := api.Group("/v1")
 	{
-		users := v1.Group("/users")
-		routers.UserRouter(users, cfg)
-
+		// test
 		// test := v1.Group("/test")
 		// routers.TestRouter(test)
 
+		// users
+		users := v1.Group("/users")
+		routers.UserRouter(users, cfg)
+
+		// countries
 		country := v1.Group("/country", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 		routers.CountryRouter(country, cfg)
 
+		// cities
 		cities := v1.Group("/city", middleware.Authentication(cfg))
 		routers.CityRouter(cities, cfg)
+
+		// files
+		files := v1.Group("/files", middleware.Authentication(cfg))
+		routers.FileRouter(files, cfg)
 	}
 }
 

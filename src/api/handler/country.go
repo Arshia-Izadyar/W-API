@@ -58,6 +58,7 @@ func (ch *CountryHandler) CreateCountry(ctx *gin.Context) {
 // @Tags Countries
 // @Accept json
 // @produces json
+// @Param id path int true "Id"
 // @Param Request body dto.CreateUpdateCountryDTO true "Create a Country"
 // @Success 200 {object} helper.Response "Country response"
 // @Failure 400 {object} helper.Response "Bad request"
@@ -85,6 +86,7 @@ func (ch *CountryHandler) UpdateCountry(ctx *gin.Context) {
 // @Tags Countries
 // @Accept json
 // @produces json
+// @Param id path int true "Id"
 // @Success 204 {object} helper.Response "Country response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Router /v1/country/delete/{id} [delete]
@@ -112,6 +114,7 @@ func (ch *CountryHandler) DeleteCountry(ctx *gin.Context) {
 // @Tags Countries
 // @Accept json
 // @produces json
+// @Param id path int true "Id"
 // @Success 200 {object} helper.Response "Country response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Router /v1/country/get/{id} [get]
