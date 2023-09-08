@@ -91,25 +91,25 @@ func (ch *CityHandler) UpdateCity(ctx *gin.Context) {
 // @Success 200 {object} helper.Response "response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Failure 404 {object} helper.Response "Not found"
-// @Router /v1/city/get/{id} [delete]
+// @Router /v1/city/get/{id} [get]
 // @Security AuthBearer
 func (ch *CityHandler) GetCityById(ctx *gin.Context) {
 	GetById[dto.CityResponse](ctx, ch.service.GenericGetCityById)
-	
-		// id, _ := strconv.Atoi(ctx.Params.ByName("id"))
-		// req := dto.CityResponse{}
-		// err := ctx.ShouldBindJSON(&req)
-		// if err != nil {
-		// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		// 	return
-		// }
-		// res, err := ch.service.GenericGetCityById(ctx, id)
-		// if err != nil {
-		// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		// 	return
-		// }
-		// ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
-	
+
+	// id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+	// req := dto.CityResponse{}
+	// err := ctx.ShouldBindJSON(&req)
+	// if err != nil {
+	// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+	// 	return
+	// }
+	// res, err := ch.service.GenericGetCityById(ctx, id)
+	// if err != nil {
+	// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+	// 	return
+	// }
+	// ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+
 }
 
 // GetCity godoc
@@ -122,7 +122,7 @@ func (ch *CityHandler) GetCityById(ctx *gin.Context) {
 // @Success 200 {object} helper.Response "City response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Failure 404 {object} helper.Response "Not found"
-// @Router /v1/cities/delete/{id} [get]
+// @Router /v1/cities/delete/{id} [delete]
 // @Security AuthBearer
 func (ch *CityHandler) DeleteCity(ctx *gin.Context) {
 	Delete(ctx, ch.service.GenericDeleteCity)

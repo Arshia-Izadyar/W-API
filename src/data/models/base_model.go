@@ -29,7 +29,7 @@ func (b *BaseModel) BeforeCreate(tx *gorm.DB) (err error) {
 	return
 }
 
-func (b *BaseModel) BeforeUpdate(tx *gorm.DB)(err error) {
+func (b *BaseModel) BeforeUpdate(tx *gorm.DB) (err error) {
 	value := tx.Statement.Context.Value(constants.UserIdKey)
 	var userId = &sql.NullInt64{
 		Valid: false,

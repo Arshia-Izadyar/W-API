@@ -69,7 +69,7 @@ func GetById[To any](ctx *gin.Context, caller func(ctx context.Context, id int) 
 		return
 	}
 	req := new(To)
-	
+
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, int(helper.ValidationError), err))

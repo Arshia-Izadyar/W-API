@@ -40,9 +40,25 @@ type UpdateCarModelRequest struct {
 }
 
 type CarModelResponse struct {
-	Id      int             `json:"id"`
-	Name    string          `json:"name"`
-	Company CompanyResponse `json:"company"`
-	Gearbox GearBoxResponse `json:"gearbox"`
-	CarType CarTypeResponse `json:"carType"`
+	Id             int                     `json:"id"`
+	Name           string                  `json:"name"`
+	Company        CompanyResponse         `json:"company"`
+	Gearbox        GearBoxResponse         `json:"gearbox"`
+	CarType        CarTypeResponse         `json:"carType"`
+	CarModelColors []CarModelColorResponse `json:"carModelColors,omitempty"`
+}
+
+type CreateCarModelYearRequest struct {
+	CarModelId    int `json:"carModelId" binding:"required"`
+	PersianYearId int `json:"persianYearId" binding:"required"`
+}
+
+type UpdateCarModelYearRequest struct {
+	CarModelId    int `json:"carModelId"`
+	PersianYearId int `json:"persianYearId"`
+}
+
+type CarModelYearResponse struct {
+	Id          int                 `json:"id"`
+	PersianYear PersianYearResponse `json:"persianYearId"`
 }

@@ -46,3 +46,31 @@ func CarModelRouter(r *gin.RouterGroup, cfg *config.Config) {
 	r.POST("/filter", h.GetByFilter)
 
 }
+
+func CarModelColorRouter(r *gin.RouterGroup, cfg *config.Config) {
+	h := handler.NewCarModelColorHandler(cfg)
+	r.GET("/get/:id", h.GetCarModelColorById)
+	r.GET("/get-c/:id", h.GetCarModelColorById)
+	r.POST("/create", h.CreateCarModelColor)
+	r.POST("/filter", h.GetByFilter)
+	r.DELETE("/delete/:id", h.DeleteCarModelColor)
+	r.PUT("/update/:id", h.UpdateCarModelColor)
+}
+
+func PersianYearRouter(r *gin.RouterGroup, cfg *config.Config) {
+	h := handler.NewPersianYearHandler(cfg)
+	r.GET("/get/:id", h.GetPersianYearById)
+	r.POST("/create", h.CreatePersianYear)
+	r.POST("/filter", h.GetByFilter)
+	r.DELETE("/delete/:id", h.DeletePersianYear)
+	r.PUT("/update/:id", h.UpdatePersianYear)
+}
+
+func CarModelYearRouter(r *gin.RouterGroup, cfg *config.Config) {
+	h := handler.NewCarModelYearHandler(cfg)
+	r.GET("/get/:id", h.GetCarModelYearById)
+	r.POST("/create", h.CreateCarModelYear)
+	r.POST("/filter", h.GetByFilter)
+	r.DELETE("/delete/:id", h.DeleteCarModelYear)
+	r.PUT("/update/:id", h.UpdateCarModelYear)
+}

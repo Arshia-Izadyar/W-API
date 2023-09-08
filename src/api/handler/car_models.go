@@ -61,7 +61,7 @@ func (ch *CarModelHandler) UpdateCarModel(ctx *gin.Context) {
 // @Success 200 {object} helper.Response "response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Failure 404 {object} helper.Response "Not found"
-// @Router /v1/car-model/get/{id} [delete]
+// @Router /v1/car-model/get/{id} [get]
 // @Security AuthBearer
 func (ch *CarModelHandler) GetCarModelById(ctx *gin.Context) {
 	GetById[dto.CarModelResponse](ctx, ch.service.GenericGetCarModelById)
@@ -78,7 +78,7 @@ func (ch *CarModelHandler) GetCarModelById(ctx *gin.Context) {
 // @Success 200 {object} helper.Response "CarModel response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Failure 404 {object} helper.Response "Not found"
-// @Router /v1/car-model/delete/{id} [get]
+// @Router /v1/car-model/delete/{id} [delete]
 // @Security AuthBearer
 func (ch *CarModelHandler) DeleteCarModel(ctx *gin.Context) {
 	Delete(ctx, ch.service.GenericDeleteCarModel)

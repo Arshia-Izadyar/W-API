@@ -1,6 +1,9 @@
 package dto
 
-import "mime/multipart"
+import (
+	"mime/multipart"
+	"time"
+)
 
 type CreateUpdateCountryDTO struct {
 	Name string `json:"name" binding:"required,alpha,min=3,max=30"`
@@ -72,3 +75,58 @@ type CompanyResponse struct {
 	Name    string          `json:"name"`
 	Country CountryResponse `json:"country,omitempty"`
 }
+
+type CreateColorRequest struct {
+	Name string `json:"name" binding:"required,max=15,min=2,alpha"`
+	Hex  string `json:"hex" binding:"required,max=7,min=2"`
+}
+
+type UpdateColorRequest struct {
+	Name string `json:"name,omitempty"`
+	Hex  string `json:"hex,omitempty"`
+}
+
+type ColorResponse struct {
+	Id   int    `json:"id"`
+	Name string `json:"name,omitempty"`
+	Hex  string `json:"hex,omitempty"`
+}
+
+type CreateCarModelColorRequest struct {
+	CarModelId int `json:"carModelId" binding:"required"`
+	ColorId    int `json:"colorId" binding:"required"`
+}
+
+type UpdateCarModelColorRequest struct {
+	CarModelId int `json:"carModelId,omitempty"`
+	ColorId    int `json:"colorId,omitempty"`
+}
+
+type CarModelColorResponse struct {
+	Id    int           `json:"id"`
+	Color ColorResponse `json:"color,omitempty"`
+}
+
+type CreatePersianYearRequest struct {
+	PersianTitle string    `json:"persianTitle" binding:"min=4"`
+	PersianYear  int       `json:"year"`
+	StartAt      time.Time `json:"startAt"`
+	EndAt        time.Time `json:"endAt"`
+}
+
+type UpdatePersianYearRequest struct {
+	PersianTitle string    `json:"persianTitle" binding:"min=4"`
+	PersianYear  int       `json:"year,omitempty"`
+	StartAt      time.Time `json:"startAt,omitempty"`
+	EndAt        time.Time `json:"endAt,omitempty"`
+}
+
+type PersianYearResponse struct {
+	Id           int    `json:"id"`
+	PersianTitle string `json:"persianTitle" binding:"min=4"`
+	PersianYear  int    `json:"year"`
+}
+
+/*
+
+ */

@@ -61,7 +61,7 @@ func (ch *CompanyHandler) UpdateCompany(ctx *gin.Context) {
 // @Success 200 {object} helper.Response "response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Failure 404 {object} helper.Response "Not found"
-// @Router /v1/company/get/{id} [delete]
+// @Router /v1/company/get/{id} [get]
 // @Security AuthBearer
 func (ch *CompanyHandler) GetCompanyById(ctx *gin.Context) {
 	GetById[dto.CompanyResponse](ctx, ch.service.GenericGetCompanyById)
@@ -78,7 +78,7 @@ func (ch *CompanyHandler) GetCompanyById(ctx *gin.Context) {
 // @Success 200 {object} helper.Response "Company response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Failure 404 {object} helper.Response "Not found"
-// @Router /v1/company/delete/{id} [get]
+// @Router /v1/company/delete/{id} [delete]
 // @Security AuthBearer
 func (ch *CompanyHandler) DeleteCompany(ctx *gin.Context) {
 	Delete(ctx, ch.service.GenericDeleteCompany)

@@ -1,6 +1,17 @@
 definitions:
+  dto.CarModelColorResponse:
+    properties:
+      color:
+        $ref: '#/definitions/dto.ColorResponse'
+      id:
+        type: integer
+    type: object
   dto.CarModelResponse:
     properties:
+      carModelColors:
+        items:
+          $ref: '#/definitions/dto.CarModelColorResponse'
+        type: array
       carType:
         $ref: '#/definitions/dto.CarTypeResponse'
       company:
@@ -23,6 +34,15 @@ definitions:
     properties:
       country:
         $ref: '#/definitions/dto.CountryResponse'
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  dto.ColorResponse:
+    properties:
+      hex:
+        type: string
       id:
         type: integer
       name:
@@ -51,6 +71,16 @@ definitions:
         type: integer
       name:
         type: string
+    type: object
+  dto.CreateCarModelColorRequest:
+    properties:
+      carModelId:
+        type: integer
+      colorId:
+        type: integer
+    required:
+    - carModelId
+    - colorId
     type: object
   dto.CreateCarModelRequest:
     properties:
@@ -88,6 +118,20 @@ definitions:
         type: string
     required:
     - countryId
+    - name
+    type: object
+  dto.CreateColorRequest:
+    properties:
+      hex:
+        maxLength: 7
+        minLength: 2
+        type: string
+      name:
+        maxLength: 15
+        minLength: 2
+        type: string
+    required:
+    - hex
     - name
     type: object
   dto.CreateCompanyRequest:
@@ -241,6 +285,13 @@ definitions:
       sort:
         type: string
     type: object
+  dto.UpdateCarModelColorRequest:
+    properties:
+      carModelId:
+        type: integer
+      colorId:
+        type: integer
+    type: object
   dto.UpdateCarModelRequest:
     properties:
       carTypeId:
@@ -269,6 +320,13 @@ definitions:
       name:
         maxLength: 20
         minLength: 3
+        type: string
+    type: object
+  dto.UpdateColorRequest:
+    properties:
+      hex:
+        type: string
+      name:
         type: string
     type: object
   dto.UpdateCompanyRequest:
@@ -345,7 +403,162 @@ definitions:
 info:
   contact: {}
 paths:
-  /v1/car-models/create:
+  /v1/car-color/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModelColor
+      parameters:
+      - description: Create a CarModelColor
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCarModelColorRequest'
+      responses:
+        "201":
+          description: CarModelColor response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelColorResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModelColor
+      tags:
+      - CarModelColor
+  /v1/car-color/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Get a CarModelColor
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: CarModelColor response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a CarModelColor
+      tags:
+      - CarModelColor
+  /v1/car-color/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get CarModelColor
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get CarModelColor
+      tags:
+      - CarModelColor
+  /v1/car-color/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Delete a CarModelColor
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModelColor
+      tags:
+      - CarModelColor
+  /v1/car-color/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModelColor
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModelColor
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCarModelColorRequest'
+      responses:
+        "200":
+          description: CarModelColor response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelColorResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModelColor
+      tags:
+      - CarModelColor
+  /v1/car-model/create:
     post:
       consumes:
       - application/json
@@ -376,8 +589,8 @@ paths:
       summary: Create a CarModel
       tags:
       - CarModel
-  /v1/car-models/delete/{id}:
-    get:
+  /v1/car-model/delete/{id}:
+    delete:
       consumes:
       - application/json
       description: Get a CarModel
@@ -405,7 +618,7 @@ paths:
       summary: Get a CarModel
       tags:
       - CarModel
-  /v1/car-models/filter:
+  /v1/car-model/filter:
     post:
       consumes:
       - application/json
@@ -431,8 +644,8 @@ paths:
       summary: Get CarModel
       tags:
       - CarModel
-  /v1/car-models/get/{id}:
-    delete:
+  /v1/car-model/get/{id}:
+    get:
       consumes:
       - application/json
       description: Delete a CarModel
@@ -460,7 +673,7 @@ paths:
       summary: Delete a CarModel
       tags:
       - CarModel
-  /v1/car-models/update/{id}:
+  /v1/car-model/update/{id}:
     put:
       consumes:
       - application/json
@@ -532,7 +745,7 @@ paths:
       tags:
       - Company
   /v1/car-type/delete/{id}:
-    get:
+    delete:
       consumes:
       - application/json
       description: Get a CarType
@@ -587,7 +800,7 @@ paths:
       tags:
       - CarType
   /v1/car-type/get/{id}:
-    delete:
+    get:
       consumes:
       - application/json
       description: Delete a CarType
@@ -656,7 +869,7 @@ paths:
       tags:
       - CarType
   /v1/cities/delete/{id}:
-    get:
+    delete:
       consumes:
       - application/json
       description: Get a City
@@ -742,7 +955,7 @@ paths:
       tags:
       - Cities
   /v1/city/get/{id}:
-    delete:
+    get:
       consumes:
       - application/json
       description: Delete a City
@@ -810,8 +1023,163 @@ paths:
       summary: Update a City
       tags:
       - Cities
-  /v1/company/delete/{id}:
+  /v1/color/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a Color
+      parameters:
+      - description: Create a Color
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateColorRequest'
+      responses:
+        "201":
+          description: Color response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.ColorResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a Color
+      tags:
+      - Color
+  /v1/color/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Get a Color
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Color response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a Color
+      tags:
+      - Color
+  /v1/color/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Color
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get Color
+      tags:
+      - Color
+  /v1/color/get/{id}:
     get:
+      consumes:
+      - application/json
+      description: Delete a Color
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a Color
+      tags:
+      - Color
+  /v1/color/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a Color
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a Color
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateColorRequest'
+      responses:
+        "200":
+          description: Color response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.ColorResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a Color
+      tags:
+      - Color
+  /v1/company/delete/{id}:
+    delete:
       consumes:
       - application/json
       description: Get a Company
@@ -866,7 +1234,7 @@ paths:
       tags:
       - Company
   /v1/company/get/{id}:
-    delete:
+    get:
       consumes:
       - application/json
       description: Delete a Company
@@ -1203,7 +1571,7 @@ paths:
       tags:
       - GearBox
   /v1/gearbox/delete/{id}:
-    get:
+    delete:
       consumes:
       - application/json
       description: Get a GearBox
@@ -1258,7 +1626,7 @@ paths:
       tags:
       - GearBox
   /v1/gearbox/get/{id}:
-    delete:
+    get:
       consumes:
       - application/json
       description: Delete a GearBox

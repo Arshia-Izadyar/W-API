@@ -61,7 +61,7 @@ func (ch *GearBoxHandler) UpdateGearBox(ctx *gin.Context) {
 // @Success 200 {object} helper.Response "response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Failure 404 {object} helper.Response "Not found"
-// @Router /v1/gearbox/get/{id} [delete]
+// @Router /v1/gearbox/get/{id} [get]
 // @Security AuthBearer
 func (ch *GearBoxHandler) GetGearBoxById(ctx *gin.Context) {
 	GetById[dto.GearBoxResponse](ctx, ch.service.GenericGetGearBoxById)
@@ -78,7 +78,7 @@ func (ch *GearBoxHandler) GetGearBoxById(ctx *gin.Context) {
 // @Success 200 {object} helper.Response "GearBox response"
 // @Failure 400 {object} helper.Response "Bad request"
 // @Failure 404 {object} helper.Response "Not found"
-// @Router /v1/gearbox/delete/{id} [get]
+// @Router /v1/gearbox/delete/{id} [delete]
 // @Security AuthBearer
 func (ch *GearBoxHandler) DeleteGearBox(ctx *gin.Context) {
 	Delete(ctx, ch.service.GenericDeleteGearBox)
