@@ -129,21 +129,21 @@ func (ch *CountryHandler) DeleteCountry(ctx *gin.Context) {
 // @Security AuthBearer
 func (ch *CountryHandler) GetCountryById(ctx *gin.Context) {
 	GetById[dto.CountryResponse](ctx, ch.service.GenericGetCountryById)
-	/*
-		id, _ := strconv.Atoi(ctx.Params.ByName("id"))
-		req := dto.CountryResponse{}
-		err := ctx.ShouldBindJSON(&req)
-		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-			return
-		}
-		res, err := ch.service.GenericGetCountryById(ctx, id)
-		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
-	*/
+	
+		// id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+		// req := dto.CountryResponse{}
+		// err := ctx.ShouldBindJSON(&req)
+		// if err != nil {
+		// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		// 	return
+		// }
+		// res, err := ch.service.GenericGetCountryById(ctx, id)
+		// if err != nil {
+		// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		// 	return
+		// }
+		// ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	
 
 }
 

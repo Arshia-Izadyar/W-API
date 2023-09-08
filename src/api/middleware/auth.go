@@ -71,7 +71,6 @@ func Authorization(validRoles []string) gin.HandlerFunc {
 				return
 			}
 			ctx.AbortWithStatusJSON(http.StatusForbidden, helper.GenerateBaseResponse(nil, false, -1))
-
 		}
 	}
 }

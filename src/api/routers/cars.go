@@ -36,3 +36,13 @@ func CompanyRouter(r *gin.RouterGroup, cfg *config.Config) {
 	r.POST("/filter", h.GetByFilter)
 
 }
+
+func CarModelRouter(r *gin.RouterGroup, cfg *config.Config) {
+	h := handler.NewCarModelHandler(cfg)
+	r.GET("/get/:id", h.GetCarModelById)
+	r.POST("/create", h.CreateCarModel)
+	r.DELETE("/delete/:id", h.DeleteCarModel)
+	r.PUT("/update/:id", h.UpdateCarModel)
+	r.POST("/filter", h.GetByFilter)
+
+}

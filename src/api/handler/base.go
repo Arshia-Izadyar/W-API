@@ -69,6 +69,7 @@ func GetById[To any](ctx *gin.Context, caller func(ctx context.Context, id int) 
 		return
 	}
 	req := new(To)
+	
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, int(helper.ValidationError), err))
@@ -79,7 +80,7 @@ func GetById[To any](ctx *gin.Context, caller func(ctx context.Context, id int) 
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.InternalError), err))
 		return
 	}
-	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
 }
 
 func GetByFilter[Ti, To any](ctx *gin.Context, caller func(ctx context.Context, req *Ti) (*dto.PageList[To], error)) {

@@ -23,18 +23,18 @@ type Company struct {
 
 type CarModel struct {
 	BaseModel
-	Name                 string  `gorm:"size:15;type:string;not null;unique"`
-	Company              Company `gorm:"foreignKey:CompanyId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
-	CompanyId            int
-	CarType              CarType `gorm:"foreignKey:CarTypeId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
-	CarTypeId            int
-	Gearbox              Gearbox `gorm:"foreignKey:GearboxId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
-	GearboxId            int
-	CarModelColors       []CarModelColor
-	CarModelPersianYears []CarModelYear
-	CarModelProperties   []CarModelProperty
-	CarModelFiles        []CarModelFile
-	CarModelComments     []CarModelComment
+	Name               string  `gorm:"size:15;type:string;not null;unique"`
+	Company            Company `gorm:"foreignKey:CompanyId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
+	CompanyId          int
+	CarType            CarType `gorm:"foreignKey:CarTypeId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
+	CarTypeId          int
+	Gearbox            Gearbox `gorm:"foreignKey:GearboxId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
+	GearboxId          int
+	CarModelColors     []CarModelColor
+	CarModelYears      []CarModelYear
+	CarModelProperties []CarModelProperty
+	CarModelFiles      []CarModelFile
+	CarModelComments   []CarModelComment
 }
 
 type CarModelColor struct { // many to many
