@@ -1,5 +1,21 @@
 definitions:
+  dto.CarTypeResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   dto.CityResponse:
+    properties:
+      country:
+        $ref: '#/definitions/dto.CountryResponse'
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  dto.CompanyResponse:
     properties:
       country:
         $ref: '#/definitions/dto.CountryResponse'
@@ -19,6 +35,15 @@ definitions:
       name:
         type: string
     type: object
+  dto.CreateCarTypeRequest:
+    properties:
+      name:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - name
+    type: object
   dto.CreateCityRequest:
     properties:
       countryId:
@@ -29,6 +54,25 @@ definitions:
         type: string
     required:
     - countryId
+    - name
+    type: object
+  dto.CreateCompanyRequest:
+    properties:
+      countryId:
+        type: integer
+      name:
+        maxLength: 15
+        type: string
+    required:
+    - countryId
+    type: object
+  dto.CreateGearBoxRequest:
+    properties:
+      name:
+        maxLength: 15
+        minLength: 3
+        type: string
+    required:
     - name
     type: object
   dto.CreatePropertyCategoryRequest:
@@ -46,7 +90,7 @@ definitions:
     type: object
   dto.CreatePropertyRequest:
     properties:
-      category_id:
+      categoryId:
         type: integer
       data_type:
         maxLength: 15
@@ -65,7 +109,7 @@ definitions:
         maxLength: 15
         type: string
     required:
-    - category_id
+    - categoryId
     - name
     type: object
   dto.CreateUpdateCountryDTO:
@@ -86,6 +130,13 @@ definitions:
       to:
         type: string
       type:
+        type: string
+    type: object
+  dto.GearBoxResponse:
+    properties:
+      id:
+        type: integer
+      name:
         type: string
     type: object
   dto.GetOtpRequest:
@@ -156,6 +207,15 @@ definitions:
       sort:
         type: string
     type: object
+  dto.UpdateCarTypeRequest:
+    properties:
+      name:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - name
+    type: object
   dto.UpdateCityRequest:
     properties:
       name:
@@ -163,10 +223,26 @@ definitions:
         minLength: 3
         type: string
     type: object
+  dto.UpdateCompanyRequest:
+    properties:
+      countryId:
+        type: integer
+      name:
+        type: string
+    type: object
   dto.UpdateFileRequest:
     properties:
       description:
         type: string
+    type: object
+  dto.UpdateGearBoxRequest:
+    properties:
+      name:
+        maxLength: 15
+        minLength: 3
+        type: string
+    required:
+    - name
     type: object
   dto.UpdatePropertyCategoryRequest:
     properties:
@@ -177,7 +253,7 @@ definitions:
     type: object
   dto.UpdatePropertyRequest:
     properties:
-      category_id:
+      categoryId:
         type: integer
       data_type:
         maxLength: 15
@@ -221,69 +297,161 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/v1/health/:
-    get:
+  /v1/car-type/create:
+    post:
       consumes:
       - application/json
-      description: Health Check
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: '#/definitions/helper.Response'
-        "400":
-          description: Failed
-          schema:
-            $ref: '#/definitions/helper.Response'
-      summary: Health Check
-      tags:
-      - health
-  /api/v1/test/user/{id}:
-    get:
-      consumes:
-      - application/json
-      description: Get user br ID
+      description: Create a Company
       parameters:
-      - description: user id
+      - description: Create a Company
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCompanyRequest'
+      responses:
+        "201":
+          description: Company response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CompanyResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a Company
+      tags:
+      - Company
+  /v1/car-type/delete/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a CarType
+      parameters:
+      - description: Id
         in: path
         name: id
         required: true
         type: integer
-      produces:
-      - application/json
       responses:
         "200":
-          description: Success
+          description: CarType response
           schema:
             $ref: '#/definitions/helper.Response'
         "400":
-          description: Failed
+          description: Bad request
           schema:
             $ref: '#/definitions/helper.Response'
-      summary: Get user br ID
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a CarType
       tags:
-      - User
-  /api/v1/test/users:
-    get:
+      - CarType
+  /v1/car-type/filter:
+    post:
       consumes:
       - application/json
-      description: Get s ID
-      produces:
-      - application/json
+      description: Get CarType
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
       responses:
         "200":
-          description: Success
+          description: City response
           schema:
             $ref: '#/definitions/helper.Response'
         "400":
-          description: Failed
+          description: Bad request
           schema:
             $ref: '#/definitions/helper.Response'
-      summary: Gs
+      security:
+      - AuthBearer: []
+      summary: Get CarType
       tags:
-      - User
+      - CarType
+  /v1/car-type/get/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a CarType
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarType
+      tags:
+      - CarType
+  /v1/car-type/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a CarType
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarType
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCarTypeRequest'
+      responses:
+        "200":
+          description: CarType response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarTypeResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a CarType
+      tags:
+      - CarType
   /v1/cities/delete/{id}:
     get:
       consumes:
@@ -439,6 +607,130 @@ paths:
       summary: Update a City
       tags:
       - Cities
+  /v1/company/delete/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a Company
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Company response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a Company
+      tags:
+      - Company
+  /v1/company/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get company
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: company response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get company
+      tags:
+      - Company
+  /v1/company/get/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Company
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a Company
+      tags:
+      - Company
+  /v1/company/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a Company
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a Company
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCompanyRequest'
+      responses:
+        "200":
+          description: Company response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CompanyResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a Company
+      tags:
+      - Company
   /v1/country/create:
     post:
       consumes:
@@ -676,6 +968,180 @@ paths:
       summary: Update File
       tags:
       - File
+  /v1/gearbox/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a GearBox
+      parameters:
+      - description: Create a GearBox
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateGearBoxRequest'
+      responses:
+        "201":
+          description: GearBox response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.GearBoxResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a GearBox
+      tags:
+      - GearBox
+  /v1/gearbox/delete/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a GearBox
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: GearBox response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a GearBox
+      tags:
+      - GearBox
+  /v1/gearbox/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get GearBox
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: gearbox response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get GearBox
+      tags:
+      - GearBox
+  /v1/gearbox/get/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a GearBox
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a GearBox
+      tags:
+      - GearBox
+  /v1/gearbox/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a GearBox
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a GearBox
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateGearBoxRequest'
+      responses:
+        "200":
+          description: GearBox response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.GearBoxResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a GearBox
+      tags:
+      - GearBox
+  /v1/health/:
+    get:
+      consumes:
+      - application/json
+      description: Health Check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Health Check
+      tags:
+      - health
   /v1/property-category/create:
     post:
       consumes:
@@ -942,6 +1408,50 @@ paths:
       summary: Update Property Category
       tags:
       - Categories
+  /v1/test/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get user br ID
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Get user br ID
+      tags:
+      - User
+  /v1/test/users:
+    get:
+      consumes:
+      - application/json
+      description: Get s ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Failed
+          schema:
+            $ref: '#/definitions/helper.Response'
+      summary: Gs
+      tags:
+      - User
   /v1/users/login-by-username:
     post:
       consumes:

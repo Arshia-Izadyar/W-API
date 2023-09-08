@@ -72,6 +72,16 @@ func RegisterRouts(r *gin.Engine) {
 		property := v1.Group("/property", middleware.Authentication(cfg))
 		routers.PropertyRouter(property, cfg)
 
+		// car
+		companies := v1.Group("/company", middleware.Authentication(cfg))
+		routers.CompanyRouter(companies, cfg)
+
+		carType := v1.Group("/car-type", middleware.Authentication(cfg))
+		routers.CarTypeRouter(carType, cfg)
+
+		gearbox := v1.Group("/gearbox", middleware.Authentication(cfg))
+		routers.GearBoxRouter(gearbox, cfg)
+
 		propertyCategory := v1.Group("/property-category", middleware.Authentication(cfg))
 		routers.PropertyCategoryRouter(propertyCategory, cfg)
 

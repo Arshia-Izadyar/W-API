@@ -18,7 +18,7 @@ func NewGenericCountryService(cfg *config.Config) *GenericCountryService {
 		base: &BaseService[models.Country, dto.CreateUpdateCountryDTO, dto.CreateUpdateCountryDTO, dto.CountryResponse]{
 			Database: db.GetDB(),
 			Logger:   logging.NewLogger(cfg),
-			Preloads: []preload{{name: "Cities"}}, // []preload{{string: "Cities.Region"}} Chain preload
+			Preloads: []preload{{name: "Cities"}, {name: "Companies"}}, // []preload{{string: "Cities.Region"}} Chain preload
 		},
 	}
 }

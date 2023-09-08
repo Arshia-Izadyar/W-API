@@ -7,9 +7,10 @@ type CreateUpdateCountryDTO struct {
 }
 
 type CountryResponse struct {
-	ID     int            `json:"id"`
-	Name   string         `json:"name"`
-	Cities []CityResponse `json:"cities,omitempty"`
+	ID        int               `json:"id"`
+	Name      string            `json:"name"`
+	Cities    []CityResponse    `json:"cities,omitempty"`
+	Companies []CompanyResponse `json:"companies,omitempty"`
 }
 
 type CreateCityRequest struct {
@@ -55,4 +56,19 @@ type FileResponse struct {
 	Directory   string `json:"directory"`
 	Description string `json:"description"`
 	MineType    string `json:"mine_type"`
+}
+
+type CreateCompanyRequest struct {
+	Name      string `json:"name" binding:"max=15"`
+	CountryID int    `json:"countryId" binding:"required"`
+}
+
+type UpdateCompanyRequest struct {
+	Name      string `json:"name,omitempty"`
+	CountryID int    `json:"countryId,omitempty"`
+}
+type CompanyResponse struct {
+	ID      int             `json:"id"`
+	Name    string          `json:"name"`
+	Country CountryResponse `json:"country,omitempty"`
 }

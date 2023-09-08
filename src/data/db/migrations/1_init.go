@@ -2,6 +2,7 @@ package migrations
 
 import (
 	"database/sql"
+	"time"
 	"wapi/src/config"
 	"wapi/src/constants"
 	"wapi/src/data/db"
@@ -19,6 +20,10 @@ func Up_1() {
 	createTables(database)
 	createCountries(database)
 	createPropertyCategory(database)
+	createCarType(database)
+	createGearbox(database)
+	createColor(database)
+	createYear(database)
 }
 
 func createTables(database *gorm.DB) {
@@ -241,6 +246,97 @@ func createProperty(database *gorm.DB, cat string) {
 
 	for _, prop := range *props {
 		database.Create(&prop)
+	}
+}
+func createCarType(database *gorm.DB) {
+	count := 0
+	database.
+		Model(&models.CarType{}).
+		Select("count(*)").
+		Find(&count)
+	if count == 0 {
+		database.Create(&models.CarType{Name: "Crossover"})
+		database.Create(&models.CarType{Name: "Sedan"})
+		database.Create(&models.CarType{Name: "Sports"})
+		database.Create(&models.CarType{Name: "Coupe"})
+		database.Create(&models.CarType{Name: "Hatchback"})
+	}
+}
+
+func createGearbox(database *gorm.DB) {
+	count := 0
+	database.
+		Model(&models.Gearbox{}).
+		Select("count(*)").
+		Find(&count)
+	if count == 0 {
+		database.Create(&models.Gearbox{Name: "Manual"})
+		database.Create(&models.Gearbox{Name: "Automatic"})
+	}
+}
+
+func createColor(database *gorm.DB) {
+	count := 0
+	database.
+		Model(&models.Color{}).
+		Select("count(*)").
+		Find(&count)
+	if count == 0 {
+		database.Create(&models.Color{Name: "Black", Hex: "#000000"})
+		database.Create(&models.Color{Name: "White", Hex: "#ffffff"})
+		database.Create(&models.Color{Name: "Blue", Hex: "#0000ff"})
+	}
+}
+
+func createYear(database *gorm.DB) {
+	count := 0
+	database.
+		Model(&models.PersianYear{}).
+		Select("count(*)").
+		Find(&count)
+	if count == 0 {
+
+		database.Create(&models.PersianYear{
+			PersianTitle: "1402",
+			Year:         1402,
+			StartAt:      time.Date(2023, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+			EndAt:        time.Date(2024, time.Month(3), 20, 0, 0, 0, 0, time.UTC),
+		})
+
+		database.Create(&models.PersianYear{
+			PersianTitle: "1401",
+			Year:         1401,
+			StartAt:      time.Date(2022, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+			EndAt:        time.Date(2023, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+		})
+
+		database.Create(&models.PersianYear{
+			PersianTitle: "1400",
+			Year:         1400,
+			StartAt:      time.Date(2021, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+			EndAt:        time.Date(2022, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+		})
+
+		database.Create(&models.PersianYear{
+			PersianTitle: "1399",
+			Year:         1399,
+			StartAt:      time.Date(2020, time.Month(3), 20, 0, 0, 0, 0, time.UTC),
+			EndAt:        time.Date(2021, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+		})
+
+		database.Create(&models.PersianYear{
+			PersianTitle: "1398",
+			Year:         1398,
+			StartAt:      time.Date(2019, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+			EndAt:        time.Date(2020, time.Month(3), 20, 0, 0, 0, 0, time.UTC),
+		})
+
+		database.Create(&models.PersianYear{
+			PersianTitle: "1398",
+			Year:         1398,
+			StartAt:      time.Date(2018, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+			EndAt:        time.Date(2019, time.Month(3), 21, 0, 0, 0, 0, time.UTC),
+		})
 	}
 }
 
