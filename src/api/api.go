@@ -7,6 +7,7 @@ import (
 	"wapi/src/api/validators"
 	"wapi/src/config"
 	"wapi/src/docs"
+	"wapi/src/pkg/logging"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -14,6 +15,8 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+var logger = logging.NewLogger(config.LoadCfg())
 
 func InitServer(cfg *config.Config) {
 	r := gin.New()
@@ -25,7 +28,10 @@ func InitServer(cfg *config.Config) {
 	RegisterSwagger(r, *cfg)
 	RegisterValidators()
 
-	r.Run(fmt.Sprintf(":%s", cfg.Server.Port))
+	err := r.Run(fmt.Sprintf(":%s", cfg.Server.Port))
+	if err != nil {
+		logger.Error(err, logging.General, logging.Startup, "server run failed", nil)
+	}
 
 }
 func RegisterValidators() {
@@ -61,6 +67,14 @@ func RegisterRouts(r *gin.Engine) {
 		// files
 		files := v1.Group("/files", middleware.Authentication(cfg))
 		routers.FileRouter(files, cfg)
+
+		// property
+		property := v1.Group("/property", middleware.Authentication(cfg))
+		routers.PropertyRouter(property, cfg)
+
+		propertyCategory := v1.Group("/property-category", middleware.Authentication(cfg))
+		routers.PropertyCategoryRouter(propertyCategory, cfg)
+
 	}
 }
 

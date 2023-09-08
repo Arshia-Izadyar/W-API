@@ -31,6 +31,43 @@ definitions:
     - countryId
     - name
     type: object
+  dto.CreatePropertyCategoryRequest:
+    properties:
+      icon:
+        maxLength: 250
+        minLength: 1
+        type: string
+      name:
+        maxLength: 15
+        minLength: 3
+        type: string
+    required:
+    - name
+    type: object
+  dto.CreatePropertyRequest:
+    properties:
+      category_id:
+        type: integer
+      data_type:
+        maxLength: 15
+        type: string
+      description:
+        maxLength: 550
+        type: string
+      icon:
+        maxLength: 250
+        type: string
+      name:
+        maxLength: 15
+        minLength: 3
+        type: string
+      unit:
+        maxLength: 15
+        type: string
+    required:
+    - category_id
+    - name
+    type: object
   dto.CreateUpdateCountryDTO:
     properties:
       name:
@@ -129,6 +166,32 @@ definitions:
   dto.UpdateFileRequest:
     properties:
       description:
+        type: string
+    type: object
+  dto.UpdatePropertyCategoryRequest:
+    properties:
+      icon:
+        type: string
+      name:
+        type: string
+    type: object
+  dto.UpdatePropertyRequest:
+    properties:
+      category_id:
+        type: integer
+      data_type:
+        maxLength: 15
+        type: string
+      description:
+        maxLength: 550
+        type: string
+      icon:
+        maxLength: 250
+        type: string
+      name:
+        type: string
+      unit:
+        maxLength: 15
         type: string
     type: object
   helper.Response:
@@ -613,6 +676,272 @@ paths:
       summary: Update File
       tags:
       - File
+  /v1/property-category/create:
+    post:
+      consumes:
+      - application/json
+      description: Create Property Category
+      parameters:
+      - description: Create Property Category
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreatePropertyCategoryRequest'
+      responses:
+        "201":
+          description: Category response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create Property Category
+      tags:
+      - Categories
+  /v1/property-category/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a property-category
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: property-category response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a property-category
+      tags:
+      - Categories
+  /v1/property-category/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Property By Filter
+      parameters:
+      - description: Get property-category By Filter
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: property-category response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get Property Filter
+      tags:
+      - Categories
+  /v1/property-category/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Property Category
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: property-category response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get Property Category
+      tags:
+      - Categories
+  /v1/property-category/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update Property Category
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: update a property-category
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePropertyCategoryRequest'
+      responses:
+        "200":
+          description: property-category response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update Property Category
+      tags:
+      - Categories
+  /v1/property/create:
+    post:
+      consumes:
+      - application/json
+      description: Create Property Category
+      parameters:
+      - description: Create Property Category
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreatePropertyRequest'
+      responses:
+        "201":
+          description: Category response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create Property Category
+      tags:
+      - Categories
+  /v1/property/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a property
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: property response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a property
+      tags:
+      - Categories
+  /v1/property/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Property By Filter
+      parameters:
+      - description: Get property By Filter
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: property response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get Property Filter
+      tags:
+      - Categories
+  /v1/property/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get Property Category
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: property response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get Property Category
+      tags:
+      - Categories
+  /v1/property/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update Property Category
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: update a property
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePropertyRequest'
+      responses:
+        "200":
+          description: property response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update Property Category
+      tags:
+      - Categories
   /v1/users/login-by-username:
     post:
       consumes:

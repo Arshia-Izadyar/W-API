@@ -14,6 +14,6 @@ type Property struct {
 	Unit        string           `gorm:"size:15;type:string;not null"`
 	Name        string           `gorm:"size:15;type:string;not null"`
 	Icon        string           `gorm:"size:250;type:string;null"`
-	Category    PropertyCategory `gorm:"foreignKey:CategoryId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
+	Category    PropertyCategory `gorm:"foreignKey:CategoryId;constraint:onDelete:NO ACTION"`
 	CategoryId  int
 }

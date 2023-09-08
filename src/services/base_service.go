@@ -120,8 +120,9 @@ func (bs *BaseService[T, TC, TU, TR]) GetById(ctx context.Context, id int) (*TR,
 
 // get query / get sort / paginator / preload
 
-func (bs *BaseService[T, TC, TU, TR]) GetByFilter(ctx context.Context, req *dto.PaginationInputWithFilter) (*dto.PageList[TR], error) {
-	return Paginate[T, TR](req, bs.Preloads, bs.Database)
+func (s *BaseService[T, Tc, Tu, Tr]) GetByFilter(ctx context.Context, req *dto.PaginationInputWithFilter) (*dto.PageList[Tr], error) {
+	return Paginate[T, Tr](req, s.Preloads, s.Database)
+
 }
 
 func getQuery[T any](filter *dto.DynamicFilter) string {
@@ -207,31 +208,11 @@ func NewPageList[T any](items *[]T, count int64, pageNumber int, pageSize int64)
 	}
 	pl.TotalPages = int(math.Ceil(float64(count) / float64(pageSize)))
 	pl.HasNextPage = pl.PageNumber < pl.TotalPages
-	pl.HasNextPage = pl.PageNumber > 1
+	pl.HasPervious = pl.PageNumber > 1
 	return pl
 
 }
 
-func Paginate1[T any, TR any](pagination *dto.PaginationInputWithFilter, preloads []preload, db *gorm.DB) (*dto.PageList[TR], error) {
-	model := new(T)
-	var items *[]T
-	var rItems *[]TR
-	db = Preload(db, preloads)
-	query := getQuery[T](&pagination.DynamicFilter)
-	sort := getSort[T](&pagination.DynamicFilter)
-
-	var totalRows int64 = 0
-	db.Model(model).Where(query).Count(&totalRows)
-	err := db.Where(query).Offset(pagination.GetOffSet()).Limit(pagination.GetPageSize()).Order(sort).Find(&items).Error
-	if err != nil {
-		return nil, err
-	}
-	rItems, err = common.TypeConverter[[]TR](items)
-	if err != nil {
-		return nil, err
-	}
-	return NewPageList(rItems, totalRows, pagination.PageNumber, int64(pagination.PageSize)), err
-}
 func Paginate[T any, Tr any](pagination *dto.PaginationInputWithFilter, preloads []preload, db *gorm.DB) (*dto.PageList[Tr], error) {
 	model := new(T)
 	var items *[]T

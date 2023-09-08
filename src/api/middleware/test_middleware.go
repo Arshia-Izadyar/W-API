@@ -16,6 +16,6 @@ func TestMiddleWare() gin.HandlerFunc {
 				"result": "Key missing",
 			})
 		}
-		return
+
 	}
 }
