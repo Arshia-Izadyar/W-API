@@ -64,6 +64,19 @@ func (ch *CarModelColorHandler) UpdateCarModelColor(ctx *gin.Context) {
 // @Router /v1/car-color/get/{id} [get]
 // @Security AuthBearer
 func (ch *CarModelColorHandler) GetCarModelColorById(ctx *gin.Context) {
+	// id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+	// if id == 0 {
+	// 	ctx.AbortWithStatus(401)
+	// 	return
+	// }
+
+	// res, err := ch.service.GenericGetCarModelColorById(ctx, id)
+	// if err != nil {
+	// 	ctx.AbortWithStatus(500)
+	// 	return
+	// }
+	// ctx.JSON(int(helper.Success), helper.GenerateBaseResponse(res, true, 0))
+
 	GetById[dto.CarModelColorResponse](ctx, ch.service.GenericGetCarModelColorById)
 
 }

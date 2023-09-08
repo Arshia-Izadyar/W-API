@@ -68,13 +68,13 @@ func GetById[To any](ctx *gin.Context, caller func(ctx context.Context, id int) 
 		ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, int(helper.NotFoundError), errors.New("not found id = 0")))
 		return
 	}
-	req := new(To)
+	// req := new(To)
 
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, int(helper.ValidationError), err))
-		return
-	}
+	// err := ctx.ShouldBindJSON(&req)
+	// if err != nil {
+	// 	ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, int(helper.ValidationError), err))
+	// 	return
+	// }
 	res, err := caller(ctx, id)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.InternalError), err))

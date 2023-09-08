@@ -46,6 +46,7 @@ type CarModelResponse struct {
 	Gearbox        GearBoxResponse         `json:"gearbox"`
 	CarType        CarTypeResponse         `json:"carType"`
 	CarModelColors []CarModelColorResponse `json:"carModelColors,omitempty"`
+	CarModelYears  []CarModelYearResponse  `json:"carModelYears,omitempty"`
 }
 
 type CreateCarModelYearRequest struct {
@@ -59,6 +60,7 @@ type UpdateCarModelYearRequest struct {
 }
 
 type CarModelYearResponse struct {
+	CarModelId  int                 `json:"carModelId"`
 	Id          int                 `json:"id"`
-	PersianYear PersianYearResponse `json:"persianYearId"`
+	PersianYear PersianYearResponse `json:"persianYear"`
 }

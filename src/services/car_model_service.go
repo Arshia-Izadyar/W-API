@@ -24,7 +24,7 @@ func NewCarModelService(cfg *config.Config) *CarModelService {
 				{name: "Gearbox"},
 				{name: "CarModelColors.Color"},
 				{name: "CarModelYears.PersianYear"},
-				{name: "CarModelYears.PersianYear.CarModelPriceHistories"},
+				{name: "CarModelYears.PersianYear.CarModelYears"},
 				{name: "CarModelProperties.Property.Category"},
 				{name: "CarModelFiles.File"},
 				{name: "CarModelComments.User"},
