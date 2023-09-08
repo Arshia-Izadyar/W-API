@@ -1,10 +1,6 @@
 package handler
 
 import (
-	"errors"
-	"net/http"
-	"strconv"
-	"wapi/src/api/helper"
 	"wapi/src/config"
 	"wapi/src/dto"
 	"wapi/src/services"
@@ -34,19 +30,22 @@ func NewCityHandler(cfg *config.Config) *CityHandler {
 // @Router /v1/city/create [post]
 // @Security AuthBearer
 func (ch *CityHandler) CreateCity(ctx *gin.Context) {
-	req := dto.CreateCityRequest{}
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
+	Create[dto.CreateCityRequest, dto.CityResponse](ctx, ch.service.GenericCreateCity)
+	/*
+		req := dto.CreateCityRequest{}
+		err := ctx.ShouldBindJSON(&req)
+		if err != nil {
 
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := ch.service.GenericCreateCity(ctx, &req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+			return
+		}
+		res, err := ch.service.GenericCreateCity(ctx, &req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+	*/
 }
 
 // UpdateCity godoc
@@ -63,19 +62,23 @@ func (ch *CityHandler) CreateCity(ctx *gin.Context) {
 // @Router /v1/city/update/{id} [put]
 // @Security AuthBearer
 func (ch *CityHandler) UpdateCity(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
-	req := dto.UpdateCityRequest{}
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := ch.service.GenericUpdateCity(ctx, id, &req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+	Update[dto.UpdateCityRequest, dto.CityResponse](ctx, ch.service.GenericUpdateCity)
+
+	/*
+		id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+		req := dto.UpdateCityRequest{}
+		err := ctx.ShouldBindJSON(&req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+			return
+		}
+		res, err := ch.service.GenericUpdateCity(ctx, id, &req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+	*/
 }
 
 // DeleteCity godoc
@@ -91,19 +94,22 @@ func (ch *CityHandler) UpdateCity(ctx *gin.Context) {
 // @Router /v1/city/get/{id} [delete]
 // @Security AuthBearer
 func (ch *CityHandler) GetCityById(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
-	req := dto.CityResponse{}
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := ch.service.GenericGetCityById(ctx, id)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+	GetById[dto.CityResponse](ctx, ch.service.GenericGetCityById)
+	/*
+		id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+		req := dto.CityResponse{}
+		err := ctx.ShouldBindJSON(&req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+			return
+		}
+		res, err := ch.service.GenericGetCityById(ctx, id)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+	*/
 }
 
 // GetCity godoc
@@ -119,18 +125,20 @@ func (ch *CityHandler) GetCityById(ctx *gin.Context) {
 // @Router /v1/cities/delete/{id} [get]
 // @Security AuthBearer
 func (ch *CityHandler) DeleteCity(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
-	if id == 0 {
-		ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, -1, errors.New("not found id = 0")))
-		return
-	}
-	err := ch.service.GenericDeleteCity(ctx, id)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusNoContent, helper.GenerateBaseResponse(gin.H{"Status": "Deleted"}, true, 0))
-
+	Delete(ctx, ch.service.GenericDeleteCity)
+	/*
+		id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+		if id == 0 {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, -1, errors.New("not found id = 0")))
+			return
+		}
+		err := ch.service.GenericDeleteCity(ctx, id)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusNoContent, helper.GenerateBaseResponse(gin.H{"Status": "Deleted"}, true, 0))
+	*/
 }
 
 // GetCities godoc
@@ -145,18 +153,21 @@ func (ch *CityHandler) DeleteCity(ctx *gin.Context) {
 // @Router /v1/cities/filter [post]
 // @Security AuthBearer
 func (ch *CityHandler) GetByFilter(ctx *gin.Context) {
-	req := dto.PaginationInputWithFilter{}
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	res, err := ch.service.GenericGetByFilter(ctx, &req)
-	// res, err := ch.service.GenericGetByFilter(ctx, &req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	GetByFilter[dto.PaginationInputWithFilter, dto.CityResponse](ctx, ch.service.GenericGetByFilter)
+	/*
+		req := dto.PaginationInputWithFilter{}
+		err := ctx.ShouldBindJSON(&req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		res, err := ch.service.GenericGetByFilter(ctx, &req)
+		// res, err := ch.service.GenericGetByFilter(ctx, &req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	*/
 
 }

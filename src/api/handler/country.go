@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"errors"
 	"net/http"
 	"strconv"
 	"wapi/src/api/helper"
@@ -38,18 +37,21 @@ func NewCountryHandler(cfg *config.Config) *CountryHandler {
 // @Router /v1/country/create [post]
 // @Security AuthBearer
 func (ch *CountryHandler) CreateCountry(ctx *gin.Context) {
-	req := dto.CreateUpdateCountryDTO{}
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := ch.service.GenericCreateCountry(ctx, &req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+	Create[dto.CreateUpdateCountryDTO, dto.CountryResponse](ctx, ch.service.GenericCreateCountry)
+	/*
+		req := dto.CreateUpdateCountryDTO{}
+		err := ctx.ShouldBindJSON(&req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+			return
+		}
+		res, err := ch.service.GenericCreateCountry(ctx, &req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusCreated, helper.GenerateBaseResponse(res, true, 0))
+	*/
 }
 
 // UpdateCountry godoc
@@ -65,19 +67,22 @@ func (ch *CountryHandler) CreateCountry(ctx *gin.Context) {
 // @Router /v1/country/update/{id} [put]
 // @Security AuthBearer
 func (ch *CountryHandler) UpdateCountry(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
-	req := dto.CreateUpdateCountryDTO{}
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := ch.service.GenericUpdateCountry(ctx, id, &req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	Update[dto.CreateUpdateCountryDTO, dto.CountryResponse](ctx, ch.service.GenericUpdateCountry)
+	/*
+		id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+		req := dto.CreateUpdateCountryDTO{}
+		err := ctx.ShouldBindJSON(&req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+			return
+		}
+		res, err := ch.service.GenericUpdateCountry(ctx, id, &req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	*/
 }
 
 // DeleteCountry godoc
@@ -92,20 +97,23 @@ func (ch *CountryHandler) UpdateCountry(ctx *gin.Context) {
 // @Router /v1/country/delete/{id} [delete]
 // @Security AuthBearer
 func (ch *CountryHandler) DeleteCountry(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+	Delete(ctx, ch.service.GenericDeleteCountry)
 
-	if id == 0 {
-		ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, -1, errors.New("not found id = 0")))
-		return
-	}
+	/*
+		id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 
-	err := ch.service.GenericDeleteCountry(ctx, id)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusNoContent, helper.GenerateBaseResponse(gin.H{"Status": "Deleted"}, true, 0))
+		if id == 0 {
+			ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, -1, errors.New("not found id = 0")))
+			return
+		}
 
+		err := ch.service.GenericDeleteCountry(ctx, id)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusNoContent, helper.GenerateBaseResponse(gin.H{"Status": "Deleted"}, true, 0))
+	*/
 }
 
 // GetCountryById godoc
@@ -120,19 +128,22 @@ func (ch *CountryHandler) DeleteCountry(ctx *gin.Context) {
 // @Router /v1/country/get/{id} [get]
 // @Security AuthBearer
 func (ch *CountryHandler) GetCountryById(ctx *gin.Context) {
-	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
-	req := dto.CountryResponse{}
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
-		return
-	}
-	res, err := ch.service.GenericGetCountryById(ctx, id)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	GetById[dto.CountryResponse](ctx, ch.service.GenericGetCountryById)
+	/*
+		id, _ := strconv.Atoi(ctx.Params.ByName("id"))
+		req := dto.CountryResponse{}
+		err := ctx.ShouldBindJSON(&req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+			return
+		}
+		res, err := ch.service.GenericGetCountryById(ctx, id)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	*/
 
 }
 
@@ -148,19 +159,21 @@ func (ch *CountryHandler) GetCountryById(ctx *gin.Context) {
 // @Router /v1/country/filter [post]
 // @Security AuthBearer
 func (ch *CountryHandler) GetCountryByFilter(ctx *gin.Context) {
-	req := dto.PaginationInputWithFilter{}
-	err := ctx.ShouldBindJSON(&req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	res, err := ch.service.GenericGetByFilter(ctx, &req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
-		return
-	}
-	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
-
+	GetByFilter[dto.PaginationInputWithFilter, dto.CountryResponse](ctx, ch.service.GenericGetByFilter)
+	/*
+		req := dto.PaginationInputWithFilter{}
+		err := ctx.ShouldBindJSON(&req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		res, err := ch.service.GenericGetByFilter(ctx, &req)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+			return
+		}
+		ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	*/
 }
 
 func (ch *CountryHandler) GetCitiesById(ctx *gin.Context) {

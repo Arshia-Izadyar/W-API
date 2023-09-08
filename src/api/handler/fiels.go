@@ -16,8 +16,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var logger = logging.NewLogger(config.LoadCfg())
-
 type FileHandler struct {
 	service *services.FileService
 }
@@ -49,7 +47,6 @@ func (fh *FileHandler) CreateFile(ctx *gin.Context) {
 	}
 	req := dto.CreateFileRequest{}
 	req.Description = upload.Description
-	// req.Name =
 	req.MineType = upload.File.Header.Get("Content-Type")
 	req.Directory = "../../uploads"
 	req.Name, err = common.SaveFile(upload.File, req.Directory)
