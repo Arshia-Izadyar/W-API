@@ -1,4 +1,17 @@
 definitions:
+  dto.CarModelResponse:
+    properties:
+      carType:
+        $ref: '#/definitions/dto.CarTypeResponse'
+      company:
+        $ref: '#/definitions/dto.CompanyResponse'
+      gearbox:
+        $ref: '#/definitions/dto.GearBoxResponse'
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   dto.CarTypeResponse:
     properties:
       id:
@@ -30,10 +43,31 @@ definitions:
         items:
           $ref: '#/definitions/dto.CityResponse'
         type: array
+      companies:
+        items:
+          $ref: '#/definitions/dto.CompanyResponse'
+        type: array
       id:
         type: integer
       name:
         type: string
+    type: object
+  dto.CreateCarModelRequest:
+    properties:
+      carTypeId:
+        type: integer
+      companyId:
+        type: integer
+      gearboxId:
+        type: integer
+      name:
+        maxLength: 15
+        type: string
+    required:
+    - carTypeId
+    - companyId
+    - gearboxId
+    - name
     type: object
   dto.CreateCarTypeRequest:
     properties:
@@ -69,7 +103,7 @@ definitions:
   dto.CreateGearBoxRequest:
     properties:
       name:
-        maxLength: 15
+        maxLength: 50
         minLength: 3
         type: string
     required:
@@ -207,6 +241,20 @@ definitions:
       sort:
         type: string
     type: object
+  dto.UpdateCarModelRequest:
+    properties:
+      carTypeId:
+        type: integer
+      companyId:
+        type: integer
+      gearboxId:
+        type: integer
+      name:
+        maxLength: 15
+        type: string
+    required:
+    - name
+    type: object
   dto.UpdateCarTypeRequest:
     properties:
       name:
@@ -238,7 +286,7 @@ definitions:
   dto.UpdateGearBoxRequest:
     properties:
       name:
-        maxLength: 15
+        maxLength: 50
         minLength: 3
         type: string
     required:
@@ -297,6 +345,161 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/car-models/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModel
+      parameters:
+      - description: Create a CarModel
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCarModelRequest'
+      responses:
+        "201":
+          description: CarModel response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModel
+      tags:
+      - CarModel
+  /v1/car-models/delete/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a CarModel
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: CarModel response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a CarModel
+      tags:
+      - CarModel
+  /v1/car-models/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get CarModel
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get CarModel
+      tags:
+      - CarModel
+  /v1/car-models/get/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a CarModel
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModel
+      tags:
+      - CarModel
+  /v1/car-models/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModel
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModel
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCarModelRequest'
+      responses:
+        "200":
+          description: CarModel response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModel
+      tags:
+      - CarModel
   /v1/car-type/create:
     post:
       consumes:

@@ -16,6 +16,261 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/car-models/create": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a CarModel",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModel"
+                ],
+                "summary": "Create a CarModel",
+                "parameters": [
+                    {
+                        "description": "Create a CarModel",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCarModelRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CarModel response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CarModelResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-models/delete/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get a CarModel",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModel"
+                ],
+                "summary": "Get a CarModel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CarModel response",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-models/filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get CarModel",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModel"
+                ],
+                "summary": "Get CarModel",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "City response",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-models/get/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a CarModel",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModel"
+                ],
+                "summary": "Delete a CarModel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-models/update/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a CarModel",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModel"
+                ],
+                "summary": "Update a CarModel",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a CarModel",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateCarModelRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CarModel response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CarModelResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/car-type/create": {
             "post": {
                 "security": [
@@ -2069,6 +2324,26 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.CarModelResponse": {
+            "type": "object",
+            "properties": {
+                "carType": {
+                    "$ref": "#/definitions/dto.CarTypeResponse"
+                },
+                "company": {
+                    "$ref": "#/definitions/dto.CompanyResponse"
+                },
+                "gearbox": {
+                    "$ref": "#/definitions/dto.GearBoxResponse"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CarTypeResponse": {
             "type": "object",
             "properties": {
@@ -2117,11 +2392,41 @@ const docTemplate = `{
                         "$ref": "#/definitions/dto.CityResponse"
                     }
                 },
+                "companies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CompanyResponse"
+                    }
+                },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.CreateCarModelRequest": {
+            "type": "object",
+            "required": [
+                "carTypeId",
+                "companyId",
+                "gearboxId",
+                "name"
+            ],
+            "properties": {
+                "carTypeId": {
+                    "type": "integer"
+                },
+                "companyId": {
+                    "type": "integer"
+                },
+                "gearboxId": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 15
                 }
             }
         },
@@ -2178,7 +2483,7 @@ const docTemplate = `{
             "properties": {
                 "name": {
                     "type": "string",
-                    "maxLength": 15,
+                    "maxLength": 50,
                     "minLength": 3
                 }
             }
@@ -2376,6 +2681,27 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.UpdateCarModelRequest": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "carTypeId": {
+                    "type": "integer"
+                },
+                "companyId": {
+                    "type": "integer"
+                },
+                "gearboxId": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 15
+                }
+            }
+        },
         "dto.UpdateCarTypeRequest": {
             "type": "object",
             "required": [
@@ -2426,7 +2752,7 @@ const docTemplate = `{
             "properties": {
                 "name": {
                     "type": "string",
-                    "maxLength": 15,
+                    "maxLength": 50,
                     "minLength": 3
                 }
             }

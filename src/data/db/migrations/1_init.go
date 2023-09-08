@@ -24,6 +24,7 @@ func Up_1() {
 	createGearbox(database)
 	createColor(database)
 	createYear(database)
+
 }
 
 func createTables(database *gorm.DB) {

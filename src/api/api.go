@@ -57,7 +57,7 @@ func RegisterRouts(r *gin.Engine) {
 		routers.UserRouter(users, cfg)
 
 		// countries
-		country := v1.Group("/country", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
+		country := v1.Group("/country")
 		routers.CountryRouter(country, cfg)
 
 		// cities
@@ -84,6 +84,9 @@ func RegisterRouts(r *gin.Engine) {
 
 		propertyCategory := v1.Group("/property-category", middleware.Authentication(cfg))
 		routers.PropertyCategoryRouter(propertyCategory, cfg)
+
+		carModel := v1.Group("/car-model", middleware.Authentication(cfg))
+		routers.CarModelRouter(carModel, cfg)
 
 	}
 }
