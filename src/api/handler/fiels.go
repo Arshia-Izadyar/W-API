@@ -42,7 +42,7 @@ func (fh *FileHandler) CreateFile(ctx *gin.Context) {
 	upload := dto.UploadFileRequest{}
 	err := ctx.ShouldBind(&upload)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.ValidationError), err))
 		return
 	}
 	req := dto.CreateFileRequest{}
@@ -51,15 +51,15 @@ func (fh *FileHandler) CreateFile(ctx *gin.Context) {
 	req.Directory = "../../uploads"
 	req.Name, err = common.SaveFile(upload.File, req.Directory)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.InternalError), err))
 		return
 	}
 	res, err := fh.service.GenericCreateFile(ctx, &req)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.InternalError), err))
 		return
 	}
-	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, int(helper.Success)))
 }
 
 // UpdateFile godoc
@@ -79,15 +79,15 @@ func (fh *FileHandler) UpdateFile(ctx *gin.Context) {
 	req := dto.UpdateFileRequest{}
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, int(helper.ValidationError), err))
 		return
 	}
 	res, err := fh.service.GenericUpdateFile(ctx, id, &req)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.InternalError), err))
 		return
 	}
-	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, int(helper.Success)))
 
 }
 
@@ -105,16 +105,16 @@ func (fh *FileHandler) UpdateFile(ctx *gin.Context) {
 func (fh *FileHandler) GetFile(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	if id == 0 {
-		ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, -1, errors.New("not found id = 0")))
+		ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, int(helper.NotFoundError), errors.New("not found id = 0")))
 		return
 	}
 
 	res, err := fh.service.GenericGetFileById(ctx, id)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.InternalError), err))
 		return
 	}
-	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, 0))
+	ctx.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, int(helper.Success)))
 
 }
 
@@ -131,7 +131,7 @@ func (fh *FileHandler) GetFile(ctx *gin.Context) {
 func (fh *FileHandler) DeleteFile(ctx *gin.Context) {
 	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	if id == 0 {
-		ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, -1, errors.New("not found id = 0")))
+		ctx.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponseWithError(nil, false, int(helper.NotFoundError), errors.New("not found id = 0")))
 		return
 	}
 
@@ -140,15 +140,15 @@ func (fh *FileHandler) DeleteFile(ctx *gin.Context) {
 
 	if err != nil {
 		logger.Error(err, logging.IO, logging.Delete, "cant delete file", nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.ValidationError), err))
 		return
 	}
 
 	err = fh.service.GenericDeleteFile(ctx, id)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, -1, err))
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.InternalError), err))
 		return
 	}
-	ctx.JSON(http.StatusNoContent, helper.GenerateBaseResponse(gin.H{"Status": "Deleted"}, true, 0))
+	ctx.JSON(http.StatusNoContent, helper.GenerateBaseResponse(gin.H{"Status": "Deleted"}, true, int(helper.Success)))
 
 }

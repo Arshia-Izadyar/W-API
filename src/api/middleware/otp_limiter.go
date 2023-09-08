@@ -17,7 +17,7 @@ func OtpLimiter(cfg *config.Config) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		limiter := limiter.GetLimiter(ctx.ClientIP())
 		if !limiter.Allow() {
-			ctx.AbortWithStatusJSON(http.StatusTooManyRequests, helper.GenerateBaseResponseWithError(nil, false, -1, errors.New("too many requests for otp")))
+			ctx.AbortWithStatusJSON(http.StatusTooManyRequests, helper.GenerateBaseResponseWithError(nil, false, int(helper.OtpLimiterError), errors.New("too many requests for otp")))
 			ctx.Abort()
 		} else {
 			ctx.Next()

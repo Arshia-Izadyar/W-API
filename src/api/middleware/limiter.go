@@ -15,7 +15,7 @@ func LimitByRequest() gin.HandlerFunc {
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusTooManyRequests, helper.GenerateBaseResponseWithError(gin.H{
 				"Error": err.Error(),
-			}, false, 0, err))
+			}, false, int(helper.LimiterError), err))
 			return
 		}
 		ctx.Next()
