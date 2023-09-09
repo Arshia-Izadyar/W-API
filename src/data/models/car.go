@@ -47,11 +47,11 @@ type CarModelColor struct { // many to many
 
 type CarModelYear struct {
 	BaseModel
-	CarModel               CarModel `gorm:"foreignKey:CarModelId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
-	CarModelId             int
-	PersianYear            PersianYear `gorm:"foreignKey:PersianYearId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
-	PersianYearId          int
-	CarModelPriceHistories []CarModelPriceHistory
+	CarModel      CarModel    `gorm:"foreignKey:CarModelId;constraint:OnUpdate:NO ACTION;OnDelete:NO ACTION"`
+	CarModelId    int         `gorm:"uniqueIndex:idx_CarModelId_PersianYearId"`
+	PersianYear   PersianYear `gorm:"foreignKey:PersianYearId;constraint:OnUpdate:NO ACTION;OnDelete:NO ACTION"`
+	PersianYearId int         `gorm:"uniqueIndex:idx_CarModelId_PersianYearId"`
+	CarModelPrice []CarModelPrice
 }
 
 type CarModelFile struct {
@@ -63,9 +63,9 @@ type CarModelFile struct {
 	IsMainImage bool
 }
 
-type CarModelPriceHistory struct {
+type CarModelPrice struct {
 	BaseModel
-	CarModelYear   CarModelYear `gorm:"foreignKey:CarModelYearId;constraint:onUpdate:NO ACTION;onDelete:NO ACTION"`
+	CarModelYear   CarModelYear `gorm:"foreignKey:CarModelYearId"`
 	CarModelYearId int
 	Price          float64   `gorm:"type:decimal(10,2);not null"`
 	PriceAt        time.Time `gorm:"type:TIMESTAMP with time zone;not null"`

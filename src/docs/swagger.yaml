@@ -6,11 +6,26 @@ definitions:
       id:
         type: integer
     type: object
+  dto.CarModelPriceResponse:
+    properties:
+      carModelYearId:
+        type: integer
+      int:
+        type: integer
+      price:
+        type: number
+      priceAt:
+        type: string
+    type: object
   dto.CarModelResponse:
     properties:
       carModelColors:
         items:
           $ref: '#/definitions/dto.CarModelColorResponse'
+        type: array
+      carModelYears:
+        items:
+          $ref: '#/definitions/dto.CarModelYearResponse'
         type: array
       carType:
         $ref: '#/definitions/dto.CarTypeResponse'
@@ -22,6 +37,15 @@ definitions:
         type: integer
       name:
         type: string
+    type: object
+  dto.CarModelYearResponse:
+    properties:
+      carModelId:
+        type: integer
+      id:
+        type: integer
+      persianYear:
+        $ref: '#/definitions/dto.PersianYearResponse'
     type: object
   dto.CarTypeResponse:
     properties:
@@ -82,6 +106,17 @@ definitions:
     - carModelId
     - colorId
     type: object
+  dto.CreateCarModelPriceRequest:
+    properties:
+      carModelYearId:
+        type: integer
+      price:
+        type: number
+      priceAt:
+        type: string
+    required:
+    - carModelYearId
+    type: object
   dto.CreateCarModelRequest:
     properties:
       carTypeId:
@@ -98,6 +133,16 @@ definitions:
     - companyId
     - gearboxId
     - name
+    type: object
+  dto.CreateCarModelYearRequest:
+    properties:
+      carModelId:
+        type: integer
+      persianYearId:
+        type: integer
+    required:
+    - carModelId
+    - persianYearId
     type: object
   dto.CreateCarTypeRequest:
     properties:
@@ -152,6 +197,18 @@ definitions:
         type: string
     required:
     - name
+    type: object
+  dto.CreatePersianYearRequest:
+    properties:
+      endAt:
+        type: string
+      persianTitle:
+        minLength: 4
+        type: string
+      startAt:
+        type: string
+      year:
+        type: integer
     type: object
   dto.CreatePropertyCategoryRequest:
     properties:
@@ -253,6 +310,16 @@ definitions:
           $ref: '#/definitions/dto.SortDTO'
         type: array
     type: object
+  dto.PersianYearResponse:
+    properties:
+      id:
+        type: integer
+      persianTitle:
+        minLength: 4
+        type: string
+      year:
+        type: integer
+    type: object
   dto.RegisterLoginByPhone:
     properties:
       otp:
@@ -292,6 +359,13 @@ definitions:
       colorId:
         type: integer
     type: object
+  dto.UpdateCarModelPriceRequest:
+    properties:
+      price:
+        type: number
+      priceAt:
+        type: string
+    type: object
   dto.UpdateCarModelRequest:
     properties:
       carTypeId:
@@ -305,6 +379,13 @@ definitions:
         type: string
     required:
     - name
+    type: object
+  dto.UpdateCarModelYearRequest:
+    properties:
+      carModelId:
+        type: integer
+      persianYearId:
+        type: integer
     type: object
   dto.UpdateCarTypeRequest:
     properties:
@@ -349,6 +430,18 @@ definitions:
         type: string
     required:
     - name
+    type: object
+  dto.UpdatePersianYearRequest:
+    properties:
+      endAt:
+        type: string
+      persianTitle:
+        minLength: 4
+        type: string
+      startAt:
+        type: string
+      year:
+        type: integer
     type: object
   dto.UpdatePropertyCategoryRequest:
     properties:
@@ -713,6 +806,161 @@ paths:
       summary: Update a CarModel
       tags:
       - CarModel
+  /v1/car-price/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModelPrice
+      parameters:
+      - description: Create a CarModelPrice
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCarModelPriceRequest'
+      responses:
+        "201":
+          description: CarModelPrice response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelPriceResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModelPrice
+      tags:
+      - CarModelPrice
+  /v1/car-price/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Get a CarModelPrice
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: CarModelPrice response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a CarModelPrice
+      tags:
+      - CarModelPrice
+  /v1/car-price/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get CarModelPrice
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get CarModelPrice
+      tags:
+      - CarModelPrice
+  /v1/car-price/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Delete a CarModelPrice
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModelPrice
+      tags:
+      - CarModelPrice
+  /v1/car-price/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModelPrice
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModelPrice
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCarModelPriceRequest'
+      responses:
+        "200":
+          description: CarModelPrice response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelPriceResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModelPrice
+      tags:
+      - CarModelPrice
   /v1/car-type/create:
     post:
       consumes:
@@ -868,6 +1116,161 @@ paths:
       summary: Update a CarType
       tags:
       - CarType
+  /v1/car-year/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModelYear
+      parameters:
+      - description: Create a CarModelYear
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCarModelYearRequest'
+      responses:
+        "201":
+          description: CarModelYear response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelYearResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModelYear
+      tags:
+      - CarModelYear
+  /v1/car-year/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Get a CarModelYear
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: CarModelYear response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a CarModelYear
+      tags:
+      - CarModelYear
+  /v1/car-year/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get CarModelYear
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get CarModelYear
+      tags:
+      - CarModelYear
+  /v1/car-year/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Delete a CarModelYear
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModelYear
+      tags:
+      - CarModelYear
+  /v1/car-year/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModelYear
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModelYear
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCarModelYearRequest'
+      responses:
+        "200":
+          description: CarModelYear response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelYearResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModelYear
+      tags:
+      - CarModelYear
   /v1/cities/delete/{id}:
     delete:
       consumes:
@@ -2143,4 +2546,159 @@ paths:
       summary: send otp
       tags:
       - User
+  /v1/year/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a PersianYear
+      parameters:
+      - description: Create a PersianYear
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreatePersianYearRequest'
+      responses:
+        "201":
+          description: PersianYear response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.PersianYearResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a PersianYear
+      tags:
+      - PersianYear
+  /v1/year/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Get a PersianYear
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: PersianYear response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a PersianYear
+      tags:
+      - PersianYear
+  /v1/year/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get PersianYear
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get PersianYear
+      tags:
+      - PersianYear
+  /v1/year/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Delete a PersianYear
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a PersianYear
+      tags:
+      - PersianYear
+  /v1/year/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a PersianYear
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a PersianYear
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdatePersianYearRequest'
+      responses:
+        "200":
+          description: PersianYear response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.PersianYearResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a PersianYear
+      tags:
+      - PersianYear
 swagger: "2.0"

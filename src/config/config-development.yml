@@ -1,5 +1,5 @@
 Server:
-  Port: 4001
+  Port: 4000
   runMode: debug
 logger:
   filePath: ../logs/logs.log

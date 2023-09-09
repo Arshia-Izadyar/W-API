@@ -99,6 +99,9 @@ func RegisterRouts(r *gin.Engine) {
 
 		carYear := v1.Group("/car-year", middleware.Authentication(cfg))
 		routers.CarModelYearRouter(carYear, cfg)
+
+		carPrice := v1.Group("/car-price", middleware.Authentication(cfg))
+		routers.CarModelPriceRouter(carPrice, cfg)
 	}
 }
 

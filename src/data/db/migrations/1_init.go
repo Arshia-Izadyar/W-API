@@ -53,7 +53,7 @@ func createTables(database *gorm.DB) {
 	tables = addNewTable(database, models.CarModelColor{}, tables)
 	tables = addNewTable(database, models.CarModelYear{}, tables)
 	tables = addNewTable(database, models.CarModelFile{}, tables)
-	tables = addNewTable(database, models.CarModelPriceHistory{}, tables)
+	tables = addNewTable(database, models.CarModelPrice{}, tables)
 	tables = addNewTable(database, models.CarModelProperty{}, tables)
 	tables = addNewTable(database, models.CarModelComment{}, tables)
 

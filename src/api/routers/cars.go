@@ -74,3 +74,12 @@ func CarModelYearRouter(r *gin.RouterGroup, cfg *config.Config) {
 	r.DELETE("/delete/:id", h.DeleteCarModelYear)
 	r.PUT("/update/:id", h.UpdateCarModelYear)
 }
+
+func CarModelPriceRouter(r *gin.RouterGroup, cfg *config.Config) {
+	h := handler.NewCarModelPriceHandler(cfg)
+	r.GET("/get/:id", h.GetCarModelPriceById)
+	r.POST("/create", h.CreateCarModelPrice)
+	r.POST("/filter", h.GetByFilter)
+	r.DELETE("/delete/:id", h.DeleteCarModelPrice)
+	r.PUT("/update/:id", h.UpdateCarModelPrice)
+}
