@@ -42,14 +42,15 @@ type UpdateCarModelRequest struct {
 }
 
 type CarModelResponse struct {
-	Id             int                     `json:"id"`
-	Name           string                  `json:"name"`
-	Company        CompanyResponse         `json:"company"`
-	Gearbox        GearBoxResponse         `json:"gearbox"`
-	CarType        CarTypeResponse         `json:"carType"`
-	CarModelColors []CarModelColorResponse `json:"carModelColors,omitempty"`
-	CarModelYears  []CarModelYearResponse  `json:"carModelYears,omitempty"`
-	CarModelFiles  []CarModelFileResponse  `json:"carModelFiles"`
+	Id                 int                        `json:"id"`
+	Name               string                     `json:"name"`
+	Company            CompanyResponse            `json:"company"`
+	Gearbox            GearBoxResponse            `json:"gearbox"`
+	CarType            CarTypeResponse            `json:"carType"`
+	CarModelColors     []CarModelColorResponse    `json:"carModelColors,omitempty"`
+	CarModelYears      []CarModelYearResponse     `json:"carModelYears,omitempty"`
+	CarModelFiles      []CarModelFileResponse     `json:"carModelFiles"`
+	CarModelProperties []CarModelPropertyResponse `json:"carModelProperties"`
 }
 
 type CreateCarModelYearRequest struct {
@@ -98,8 +99,24 @@ type UpdateCarModelFileRequest struct {
 }
 
 type CarModelFileResponse struct {
-	Id          int              `json:"id"`
-	CarModel    CarModelResponse `json:"carModel"`
-	File        FileResponse     `json:"file"`
-	IsMainImage bool             `json:"isMainImage"`
+	Id          int          `json:"id"`
+	File        FileResponse `json:"file"`
+	IsMainImage bool         `json:"isMainImage"`
+}
+
+type CreateCarModelPropertyRequest struct {
+	CarModelId int    `json:"carModelId"`
+	Value      string `json:"value"`
+	PropertyId int    `json:"propertyId"`
+}
+
+type UpdateCarModelPropertyRequest struct {
+	Value string `json:"value"`
+}
+
+type CarModelPropertyResponse struct {
+	Id         int              `json:"id"`
+	CarModelId int              `json:"carModelId"`
+	Value      string           `json:"value"`
+	Property   PropertyResponse `json:"property"`
 }

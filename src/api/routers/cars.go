@@ -92,3 +92,12 @@ func CarModelFileRouter(r *gin.RouterGroup, cfg *config.Config) {
 	r.DELETE("/delete/:id", h.DeleteCarModelFile)
 	r.PUT("/update/:id", h.UpdateCarModelFile)
 }
+
+func CarModelPropertyRouter(r *gin.RouterGroup, cfg *config.Config) {
+	h := handler.NewCarModelPropertyHandler(cfg)
+	r.GET("/get/:id", h.GetCarModelPropertyById)
+	r.POST("/create", h.CreateCarModelProperty)
+	r.POST("/filter", h.GetByFilter)
+	r.DELETE("/delete/:id", h.DeleteCarModelProperty)
+	r.PUT("/update/:id", h.UpdateCarModelProperty)
+}

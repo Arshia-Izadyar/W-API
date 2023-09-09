@@ -19,12 +19,7 @@ func NewCarModelFileService(cfg *config.Config) *CarModelFileService {
 			Database: db.GetDB(),
 			Logger:   logging.NewLogger(cfg),
 			Preloads: []preload{
-				{name: "CarModel"},
 				{name: "File"},
-				{name: "CarModel.Company"},
-				{name: "CarModel.Company.Country"},
-				{name: "CarModel.CarType"},
-				{name: "CarModel.Gearbox"},
 			},
 		},
 	}

@@ -8,8 +8,6 @@ definitions:
     type: object
   dto.CarModelFileResponse:
     properties:
-      carModel:
-        $ref: '#/definitions/dto.CarModelResponse'
       file:
         $ref: '#/definitions/dto.FileResponse'
       id:
@@ -28,11 +26,26 @@ definitions:
       priceAt:
         type: string
     type: object
+  dto.CarModelPropertyResponse:
+    properties:
+      carModelId:
+        type: integer
+      id:
+        type: integer
+      property:
+        $ref: '#/definitions/dto.PropertyResponse'
+      value:
+        type: string
+    type: object
   dto.CarModelResponse:
     properties:
       carModelColors:
         items:
           $ref: '#/definitions/dto.CarModelColorResponse'
+        type: array
+      carModelFiles:
+        items:
+          $ref: '#/definitions/dto.CarModelFileResponse'
         type: array
       carModelYears:
         items:
@@ -143,6 +156,15 @@ definitions:
         type: string
     required:
     - carModelYearId
+    type: object
+  dto.CreateCarModelPropertyRequest:
+    properties:
+      carModelId:
+        type: integer
+      propertyId:
+        type: integer
+      value:
+        type: string
     type: object
   dto.CreateCarModelRequest:
     properties:
@@ -360,6 +382,36 @@ definitions:
       year:
         type: integer
     type: object
+  dto.PropertyCategoryResponse:
+    properties:
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      properties:
+        items:
+          $ref: '#/definitions/dto.PropertyResponse'
+        type: array
+    type: object
+  dto.PropertyResponse:
+    properties:
+      category:
+        $ref: '#/definitions/dto.PropertyCategoryResponse'
+      data_type:
+        type: string
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      unit:
+        type: string
+    type: object
   dto.RegisterLoginByPhone:
     properties:
       otp:
@@ -409,6 +461,11 @@ definitions:
       price:
         type: number
       priceAt:
+        type: string
+    type: object
+  dto.UpdateCarModelPropertyRequest:
+    properties:
+      value:
         type: string
     type: object
   dto.UpdateCarModelRequest:
@@ -1161,6 +1218,161 @@ paths:
       summary: Update a CarModelPrice
       tags:
       - CarModelPrice
+  /v1/car-property/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModelProperty
+      parameters:
+      - description: Create a CarModelProperty
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCarModelPropertyRequest'
+      responses:
+        "201":
+          description: CarModelProperty response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelPropertyResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModelProperty
+      tags:
+      - CarModelProperty
+  /v1/car-property/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Get a CarModelProperty
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: CarModelProperty response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a CarModelProperty
+      tags:
+      - CarModelProperty
+  /v1/car-property/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get CarModelProperty
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get CarModelProperty
+      tags:
+      - CarModelProperty
+  /v1/car-property/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Delete a CarModelProperty
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModelProperty
+      tags:
+      - CarModelProperty
+  /v1/car-property/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModelProperty
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModelProperty
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCarModelPropertyRequest'
+      responses:
+        "200":
+          description: CarModelProperty response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelPropertyResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModelProperty
+      tags:
+      - CarModelProperty
   /v1/car-type/create:
     post:
       consumes:
