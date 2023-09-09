@@ -20,7 +20,7 @@ var logger = logging.NewLogger(config.LoadCfg())
 
 func InitServer(cfg *config.Config) {
 	r := gin.New()
-	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(middleware.StructuredLog(logger), gin.Recovery())
 	r.Use(middleware.LimitByRequest())
 	r.Use(middleware.Cors(cfg))
 
