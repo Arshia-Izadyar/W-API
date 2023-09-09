@@ -6,11 +6,22 @@ definitions:
       id:
         type: integer
     type: object
+  dto.CarModelFileResponse:
+    properties:
+      carModel:
+        $ref: '#/definitions/dto.CarModelResponse'
+      file:
+        $ref: '#/definitions/dto.FileResponse'
+      id:
+        type: integer
+      isMainImage:
+        type: boolean
+    type: object
   dto.CarModelPriceResponse:
     properties:
       carModelYearId:
         type: integer
-      int:
+      id:
         type: integer
       price:
         type: number
@@ -42,6 +53,10 @@ definitions:
     properties:
       carModelId:
         type: integer
+      carModelPrice:
+        items:
+          $ref: '#/definitions/dto.CarModelPriceResponse'
+        type: array
       id:
         type: integer
       persianYear:
@@ -105,6 +120,18 @@ definitions:
     required:
     - carModelId
     - colorId
+    type: object
+  dto.CreateCarModelFileRequest:
+    properties:
+      carModelId:
+        type: integer
+      fileId:
+        type: integer
+      isMainImage:
+        type: boolean
+    required:
+    - carModelId
+    - fileId
     type: object
   dto.CreateCarModelPriceRequest:
     properties:
@@ -256,6 +283,19 @@ definitions:
     required:
     - name
     type: object
+  dto.FileResponse:
+    properties:
+      description:
+        type: string
+      directory:
+        type: string
+      id:
+        type: integer
+      mine_type:
+        type: string
+      name:
+        type: string
+    type: object
   dto.Filter:
     properties:
       filter_type:
@@ -358,6 +398,11 @@ definitions:
         type: integer
       colorId:
         type: integer
+    type: object
+  dto.UpdateCarModelFileRequest:
+    properties:
+      isMainImage:
+        type: boolean
     type: object
   dto.UpdateCarModelPriceRequest:
     properties:
@@ -651,6 +696,161 @@ paths:
       summary: Update a CarModelColor
       tags:
       - CarModelColor
+  /v1/car-file/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModelFile
+      parameters:
+      - description: Create a CarModelFile
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCarModelFileRequest'
+      responses:
+        "201":
+          description: CarModelFile response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelFileResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModelFile
+      tags:
+      - CarModelFile
+  /v1/car-file/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Get a CarModelFile
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: CarModelFile response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a CarModelFile
+      tags:
+      - CarModelFile
+  /v1/car-file/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get CarModelFile
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get CarModelFile
+      tags:
+      - CarModelFile
+  /v1/car-file/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Delete a CarModelFile
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModelFile
+      tags:
+      - CarModelFile
+  /v1/car-file/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModelFile
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModelFile
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCarModelFileRequest'
+      responses:
+        "200":
+          description: CarModelFile response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelFileResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModelFile
+      tags:
+      - CarModelFile
   /v1/car-model/create:
     post:
       consumes:

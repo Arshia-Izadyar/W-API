@@ -34,12 +34,12 @@ type CityResponse struct {
 // file
 
 type FileFormRequest struct {
-	File *multipart.FileHeader `json:"file" form:"file" swaggerignore:"true"`
+	File *multipart.FileHeader `form:"file" swaggerignore:"true"`
 }
 
 type UploadFileRequest struct {
 	FileFormRequest
-	Description string `json:"description" form:"description" binding:"required"`
+	Description string `form:"description" binding:"required"`
 }
 
 type CreateFileRequest struct {

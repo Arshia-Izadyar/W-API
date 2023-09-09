@@ -49,6 +49,7 @@ type CarModelResponse struct {
 	CarType        CarTypeResponse         `json:"carType"`
 	CarModelColors []CarModelColorResponse `json:"carModelColors,omitempty"`
 	CarModelYears  []CarModelYearResponse  `json:"carModelYears,omitempty"`
+	CarModelFiles  []CarModelFileResponse  `json:"carModelFiles"`
 }
 
 type CreateCarModelYearRequest struct {
@@ -84,4 +85,21 @@ type CarModelPriceResponse struct {
 	CarModelYearId int       `json:"carModelYearId"`
 	Price          float64   `json:"price"`
 	PriceAt        time.Time `json:"priceAt"`
+}
+
+type CreateCarModelFileRequest struct {
+	CarModelId  int  `json:"carModelId" binding:"required"`
+	FileId      int  `json:"fileId" binding:"required"`
+	IsMainImage bool `json:"isMainImage"`
+}
+
+type UpdateCarModelFileRequest struct {
+	IsMainImage bool `json:"isMainImage"`
+}
+
+type CarModelFileResponse struct {
+	Id          int              `json:"id"`
+	CarModel    CarModelResponse `json:"carModel"`
+	File        FileResponse     `json:"file"`
+	IsMainImage bool             `json:"isMainImage"`
 }

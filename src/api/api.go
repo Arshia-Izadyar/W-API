@@ -102,6 +102,11 @@ func RegisterRouts(r *gin.Engine) {
 
 		carPrice := v1.Group("/car-price", middleware.Authentication(cfg))
 		routers.CarModelPriceRouter(carPrice, cfg)
+
+		carFile := v1.Group("/car-file", middleware.Authentication(cfg))
+		routers.CarModelFileRouter(carFile, cfg)
+
+		r.Static("/static", "../../uploads")
 	}
 }
 

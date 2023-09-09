@@ -50,6 +50,7 @@ func (fh *FileHandler) CreateFile(ctx *gin.Context) {
 	req.MineType = upload.File.Header.Get("Content-Type")
 	req.Directory = "../../uploads"
 	req.Name, err = common.SaveFile(upload.File, req.Directory)
+	fmt.Println(req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithError(nil, false, int(helper.InternalError), err))
 		return

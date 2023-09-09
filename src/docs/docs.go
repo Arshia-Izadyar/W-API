@@ -271,6 +271,261 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/car-file/create": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Create a CarModelFile",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelFile"
+                ],
+                "summary": "Create a CarModelFile",
+                "parameters": [
+                    {
+                        "description": "Create a CarModelFile",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateCarModelFileRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "CarModelFile response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CarModelFileResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-file/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get a CarModelFile",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelFile"
+                ],
+                "summary": "Get a CarModelFile",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CarModelFile response",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-file/filter": {
+            "post": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Get CarModelFile",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelFile"
+                ],
+                "summary": "Get CarModelFile",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.PaginationInputWithFilter"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "City response",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-file/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Delete a CarModelFile",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelFile"
+                ],
+                "summary": "Delete a CarModelFile",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/car-file/update/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "AuthBearer": []
+                    }
+                ],
+                "description": "Update a CarModelFile",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "CarModelFile"
+                ],
+                "summary": "Update a CarModelFile",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update a CarModelFile",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateCarModelFileRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "CarModelFile response",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/helper.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "result": {
+                                            "$ref": "#/definitions/dto.CarModelFileResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/helper.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/car-model/create": {
             "post": {
                 "security": [
@@ -3610,13 +3865,30 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CarModelFileResponse": {
+            "type": "object",
+            "properties": {
+                "carModel": {
+                    "$ref": "#/definitions/dto.CarModelResponse"
+                },
+                "file": {
+                    "$ref": "#/definitions/dto.FileResponse"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isMainImage": {
+                    "type": "boolean"
+                }
+            }
+        },
         "dto.CarModelPriceResponse": {
             "type": "object",
             "properties": {
                 "carModelYearId": {
                     "type": "integer"
                 },
-                "int": {
+                "id": {
                     "type": "integer"
                 },
                 "price": {
@@ -3664,6 +3936,12 @@ const docTemplate = `{
             "properties": {
                 "carModelId": {
                     "type": "integer"
+                },
+                "carModelPrice": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.CarModelPriceResponse"
+                    }
                 },
                 "id": {
                     "type": "integer"
@@ -3761,6 +4039,24 @@ const docTemplate = `{
                 },
                 "colorId": {
                     "type": "integer"
+                }
+            }
+        },
+        "dto.CreateCarModelFileRequest": {
+            "type": "object",
+            "required": [
+                "carModelId",
+                "fileId"
+            ],
+            "properties": {
+                "carModelId": {
+                    "type": "integer"
+                },
+                "fileId": {
+                    "type": "integer"
+                },
+                "isMainImage": {
+                    "type": "boolean"
                 }
             }
         },
@@ -3979,6 +4275,26 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.FileResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "directory": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "mine_type": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.Filter": {
             "type": "object",
             "properties": {
@@ -4131,6 +4447,14 @@ const docTemplate = `{
                 },
                 "colorId": {
                     "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateCarModelFileRequest": {
+            "type": "object",
+            "properties": {
+                "isMainImage": {
+                    "type": "boolean"
                 }
             }
         },
