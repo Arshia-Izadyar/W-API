@@ -101,3 +101,12 @@ func CarModelPropertyRouter(r *gin.RouterGroup, cfg *config.Config) {
 	r.DELETE("/delete/:id", h.DeleteCarModelProperty)
 	r.PUT("/update/:id", h.UpdateCarModelProperty)
 }
+
+func CarModelCommentRouter(r *gin.RouterGroup, cfg *config.Config) {
+	h := handler.NewCarModelCommentHandler(cfg)
+	r.GET("/get/:id", h.GetCarModelCommentById)
+	r.POST("/create", h.CreateCarModelComment)
+	r.POST("/filter", h.GetByFilter)
+	r.DELETE("/delete/:id", h.DeleteCarModelComment)
+	r.PUT("/update/:id", h.UpdateCarModelComment)
+}

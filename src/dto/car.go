@@ -1,6 +1,8 @@
 package dto
 
-import "time"
+import (
+	"time"
+)
 
 type CreateCarTypeRequest struct {
 	Name string `json:"name" binding:"required,alpha,min=3,max=50"`
@@ -51,6 +53,7 @@ type CarModelResponse struct {
 	CarModelYears      []CarModelYearResponse     `json:"carModelYears,omitempty"`
 	CarModelFiles      []CarModelFileResponse     `json:"carModelFiles"`
 	CarModelProperties []CarModelPropertyResponse `json:"carModelProperties"`
+	CarModelComments   []CarModelCommentResponse  `json:"carModelComments"`
 }
 
 type CreateCarModelYearRequest struct {
@@ -119,4 +122,26 @@ type CarModelPropertyResponse struct {
 	CarModelId int              `json:"carModelId"`
 	Value      string           `json:"value"`
 	Property   PropertyResponse `json:"property"`
+}
+
+type CreateCarModelCommentRequest struct {
+	CarModelId int    `json:"carModelId" binding:"required"`
+	UserId     int    `json:"userId"`
+	Message    string `json:"message" binding:"required,max=1000"`
+}
+
+type UpdateCarModelCommentRequest struct {
+	Message string `json:"message"`
+}
+
+type CarModelCommentResponse struct {
+	Id         int          `json:"id"`
+	CarModelId int          `json:"carModelId"`
+	User       UserResponse `json:"user"`
+	Message    string       `json:"message"`
+}
+
+type UserResponse struct {
+	Id       int    `json:"id"`
+	UserName string `json:"userName"`
 }

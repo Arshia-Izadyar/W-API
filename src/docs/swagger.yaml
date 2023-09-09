@@ -6,6 +6,17 @@ definitions:
       id:
         type: integer
     type: object
+  dto.CarModelCommentResponse:
+    properties:
+      carModelId:
+        type: integer
+      id:
+        type: integer
+      message:
+        type: string
+      user:
+        $ref: '#/definitions/dto.UserResponse'
+    type: object
   dto.CarModelFileResponse:
     properties:
       file:
@@ -46,6 +57,10 @@ definitions:
       carModelFiles:
         items:
           $ref: '#/definitions/dto.CarModelFileResponse'
+        type: array
+      carModelProperties:
+        items:
+          $ref: '#/definitions/dto.CarModelPropertyResponse'
         type: array
       carModelYears:
         items:
@@ -133,6 +148,19 @@ definitions:
     required:
     - carModelId
     - colorId
+    type: object
+  dto.CreateCarModelCommentRequest:
+    properties:
+      carModelId:
+        type: integer
+      message:
+        maxLength: 1000
+        type: string
+      userId:
+        type: integer
+    required:
+    - carModelId
+    - message
     type: object
   dto.CreateCarModelFileRequest:
     properties:
@@ -451,6 +479,11 @@ definitions:
       colorId:
         type: integer
     type: object
+  dto.UpdateCarModelCommentRequest:
+    properties:
+      message:
+        type: string
+    type: object
   dto.UpdateCarModelFileRequest:
     properties:
       isMainImage:
@@ -569,6 +602,19 @@ definitions:
         type: string
       unit:
         maxLength: 15
+        type: string
+    type: object
+  dto.UserResponse:
+    properties:
+      email:
+        type: string
+      firstName:
+        type: string
+      id:
+        type: integer
+      lastName:
+        type: string
+      userName:
         type: string
     type: object
   helper.Response:
@@ -753,6 +799,161 @@ paths:
       summary: Update a CarModelColor
       tags:
       - CarModelColor
+  /v1/car-comment/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a CarModelComment
+      parameters:
+      - description: Create a CarModelComment
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateCarModelCommentRequest'
+      responses:
+        "201":
+          description: CarModelComment response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelCommentResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Create a CarModelComment
+      tags:
+      - CarModelComment
+  /v1/car-comment/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Get a CarModelComment
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: CarModelComment response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get a CarModelComment
+      tags:
+      - CarModelComment
+  /v1/car-comment/filter:
+    post:
+      consumes:
+      - application/json
+      description: Get CarModelComment
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: City response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Get CarModelComment
+      tags:
+      - CarModelComment
+  /v1/car-comment/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Delete a CarModelComment
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Delete a CarModelComment
+      tags:
+      - CarModelComment
+  /v1/car-comment/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a CarModelComment
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a CarModelComment
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateCarModelCommentRequest'
+      responses:
+        "200":
+          description: CarModelComment response
+          schema:
+            allOf:
+            - $ref: '#/definitions/helper.Response'
+            - properties:
+                result:
+                  $ref: '#/definitions/dto.CarModelCommentResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/helper.Response'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/helper.Response'
+      security:
+      - AuthBearer: []
+      summary: Update a CarModelComment
+      tags:
+      - CarModelComment
   /v1/car-file/create:
     post:
       consumes:

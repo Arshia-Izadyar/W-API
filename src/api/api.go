@@ -109,6 +109,9 @@ func RegisterRouts(r *gin.Engine) {
 		carProperty := v1.Group("/car-property", middleware.Authentication(cfg))
 		routers.CarModelPropertyRouter(carProperty, cfg)
 
+		carComments := v1.Group("/car-comment", middleware.Authentication(cfg))
+		routers.CarModelCommentRouter(carComments, cfg)
+
 		r.Static("/static", "../../uploads")
 	}
 }

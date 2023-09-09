@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 	"wapi/src/api/helper"
@@ -15,7 +16,14 @@ import (
 
 func Authentication(cfg *config.Config) gin.HandlerFunc {
 	var tokenServise = services.NewTokenService(cfg)
+
 	return func(ctx *gin.Context) {
+		defer func() {
+			if r := recover(); r != nil {
+				ctx.AbortWithStatusJSON(http.StatusUnauthorized, helper.GenerateBaseResponseWithError(nil, false, -2, errors.New("no barrer <token> found in header")))
+				return
+			}
+		}()
 		var err error
 		claimMap := map[string]interface{}{}
 		key := ctx.GetHeader(constants.AuthenTicationHeaderKey)
